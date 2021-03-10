@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(arcade)
 
-set(LOCAL_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(LOCAL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(LOCAL_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
+set(LOCAL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 
 add_subdirectory(lib_bar)
