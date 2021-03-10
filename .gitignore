@@ -1,0 +1,5 @@
+bootstrap
+CMakeFiles
+CMakeCache.txt
+*.cmake
+.vscode
