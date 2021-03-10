@@ -1,5 +1,7 @@
-bootstrap
 CMakeFiles
 CMakeCache.txt
 *.cmake
 .vscode
+*.so
+Makefile
+arcade
