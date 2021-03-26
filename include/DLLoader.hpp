@@ -1,4 +1,12 @@
-#pragma once
+/*
+** EPITECH PROJECT, 2021
+** # DLLoader.hpp
+** File description:
+** Created 25/03/2021 15:00:21
+*/
+
+#ifndef DLLOADER_HPP
+#define DLLOADER_HPP
 
 #include <string>
 #include <iostream>
@@ -51,3 +59,5 @@ class DLLoader
         void *_handle;
         T *_instance;
 };
+
+#endif

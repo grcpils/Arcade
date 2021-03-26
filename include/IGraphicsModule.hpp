@@ -5,7 +5,8 @@
 ** Created 26/03/2021 11:28:10
 */
 
-#pragma once
+#ifndef IGAMES_HPP
+#define IGAMES_HPP
 
 #include <ostream>
 #include <string>
@@ -15,6 +16,9 @@ class IGraphicsModule
     public:
         virtual ~IGraphicsModule(void) = default;
 
+        virtual std::string getName(void) const;
 
     private:
 };
+
+#endif
