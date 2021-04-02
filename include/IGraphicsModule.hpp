@@ -18,6 +18,8 @@ class IGraphicsModule
 
         virtual std::string getName(void) const;
 
+        virtual void drawShape();
+
     private:
 };
 

@@ -9,6 +9,8 @@ add_library(${PROJECT_NAME} SHARED
     Sdl2.cpp
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
+
 target_include_directories(${PROJECT_NAME} PUBLIC
                             "${LOCAL_INCLUDE_DIR}"
                             "${PROJECT_BINARY_DIR}"
