@@ -16,6 +16,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                             "${PROJECT_BINARY_DIR}"
                           )
 
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} ${CURSES_LIBRARIES})
+
 ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                        $<TARGET_FILE:${PROJECT_NAME}>

@@ -14,7 +14,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 target_include_directories(${PROJECT_NAME} PUBLIC
                             "${LOCAL_INCLUDE_DIR}"
                             "${PROJECT_BINARY_DIR}"
+                            "${SFML_INCLUDE_DIR}"
                           )
+
+target_link_libraries(${PROJECT_NAME} sfml-graphics)
+target_link_libraries(${PROJECT_NAME} sfml-audio)
+target_link_libraries(${PROJECT_NAME} sfml-window)
 
 ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy

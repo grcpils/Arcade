@@ -13,7 +13,8 @@ class Sdl2 : public IGraphicsModule
         Sdl2(void);
         ~Sdl2(void);
 
-
+        std::string getName(void) const;
 
     private:
+        std::string _name;
 };

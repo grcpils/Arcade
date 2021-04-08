@@ -12,7 +12,7 @@
 #include <string>
 #include "IGraphicsModule.hpp"
 
-typedef enum Status { RUN, WIN, LOOSE };
+typedef enum Status { RUN, WIN, LOOSE } Status;
 
 class IGamesModule
 {
@@ -23,8 +23,9 @@ class IGamesModule
         virtual enum Status getStatus(void) const;
 
         virtual void init(void);
-        virtual bool refresh(void);
-        virtual bool close(void);
+        virtual enum Status getStatus(void);
+        virtual bool keyInput(void);
+
     private:
 };
 

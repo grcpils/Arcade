@@ -5,6 +5,12 @@
 ** Created 26/03/2021 11:34:43
 */
 
+#ifndef NCURSES_HPP
+#define NCURSES_HPP
+
+#include <iostream>
+#include <ncurses.h>
+#include <string.h>
 #include "IGraphicsModule.hpp"
 
 class Ncurses : public IGraphicsModule
@@ -13,7 +19,10 @@ class Ncurses : public IGraphicsModule
         Ncurses(void);
         ~Ncurses(void);
 
-
+        std::string getName(void) const;
 
     private:
+        std::string _name;
 };
+
+#endif

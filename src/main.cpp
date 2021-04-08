@@ -5,10 +5,13 @@
 ** Created 25/03/2021 15:01:28
 */
 
-#include <iostream>
-#include "Logger.hpp"
+#include "Arcade.hpp"
+#include "Core.hpp"
 
-int main(void)
+int main(int ac, char **av)
 {
+    Log("Init arcade",0);
+    Arcade::Core *core = new Arcade::Core(ac, av);
+
     return (0);
 }

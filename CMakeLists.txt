@@ -29,11 +29,14 @@ add_subdirectory(${LOCAL_GRAPHICS_DIR}/sfml/)
 # Adding core program
 add_executable(${PROJECT_NAME}
     ${LOCAL_SRC_DIR}/main.cpp
+    ${LOCAL_SRC_DIR}/utils.cpp
+    ${LOCAL_CORE_DIR}/Core.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
                             "${LOCAL_INCLUDE_DIR}"
                             "${PROJECT_BINARY_DIR}"
+                            "${LOCAL_CORE_DIR}"
                           )
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})

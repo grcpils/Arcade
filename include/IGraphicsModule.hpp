@@ -16,9 +16,7 @@ class IGraphicsModule
     public:
         virtual ~IGraphicsModule(void) = default;
 
-        virtual std::string getName(void) const;
-
-        virtual void drawShape();
+        virtual std::string getName(void) const = 0;
 
     private:
 };

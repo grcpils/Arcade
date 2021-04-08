@@ -14,6 +14,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 target_include_directories(${PROJECT_NAME} PUBLIC
                             "${LOCAL_INCLUDE_DIR}"
                             "${PROJECT_BINARY_DIR}"
+                            "${SDL2_INCLUDE_DIRS}"
                           )
 
 ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME} POST_BUILD

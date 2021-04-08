@@ -13,7 +13,8 @@ class Sfml : public IGraphicsModule
         Sfml(void);
         ~Sfml(void);
 
-
+        std::string getName(void) const;
 
     private:
+        std::string _name;
 };
