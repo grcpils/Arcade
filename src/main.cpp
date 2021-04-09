@@ -13,5 +13,6 @@ int main(int ac, char **av)
     Log("Init arcade",0);
     Arcade::Core *core = new Arcade::Core(ac, av);
 
+    delete core;
     return (0);
 }

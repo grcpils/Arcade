@@ -19,8 +19,11 @@ namespace Arcade {
             ~Core(void);
 
             void usage(void);
+            int gameloop(void);
 
         private:
+            DLLoader<IGraphicsModule> *_graphicPtr;
+            DLLoader<IGamesModule> *_gamePtr;
             IGraphicsModule *_graphicLib;
             IGamesModule *_gameLib;
     };

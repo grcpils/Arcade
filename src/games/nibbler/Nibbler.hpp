@@ -10,8 +10,16 @@
 class Nibbler : public IGamesModule
 {
     public:
-        Nibbler(void);
+        Nibbler(char *filename = NULL);
         ~Nibbler(void);
 
+        void init(void);
+        enum Status getStatus(void);
+        bool keyInput(void);
+
+        char **getMap(char *filename);
+
     private:
+        char *_filename;
+        char **_map;
 };

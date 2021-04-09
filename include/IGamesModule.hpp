@@ -10,7 +10,6 @@
 
 #include <ostream>
 #include <string>
-#include "IGraphicsModule.hpp"
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 
@@ -19,12 +18,13 @@ class IGamesModule
     public:
         virtual ~IGamesModule(void) = default;
 
-        virtual std::string getName(void) const;
-        virtual enum Status getStatus(void) const;
+        virtual std::string getName(void) const = 0;
+        virtual enum Status getStatus(void) const = 0;
 
-        virtual void init(void);
-        virtual enum Status getStatus(void);
-        virtual bool keyInput(void);
+        virtual void init(void) = 0;
+        virtual bool keyInput(void) = 0;
+
+        virtual char **getMap(char *filename) = 0;
 
     private:
 };

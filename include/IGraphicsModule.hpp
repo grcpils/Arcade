@@ -18,6 +18,8 @@ class IGraphicsModule
 
         virtual std::string getName(void) const = 0;
 
+        virtual void loadMap(char **map) = 0;
+
     private:
 };
 

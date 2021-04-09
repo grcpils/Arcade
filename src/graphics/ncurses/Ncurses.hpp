@@ -20,6 +20,7 @@ class Ncurses : public IGraphicsModule
         ~Ncurses(void);
 
         std::string getName(void) const;
+        void loadMap(char **map);
 
     private:
         std::string _name;

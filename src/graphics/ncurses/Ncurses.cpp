@@ -11,23 +11,28 @@ Ncurses::Ncurses(void)
 :   _name("ncurses")
 {
     initscr();
-    curs_set(0);
-    move(LINES / 2, (COLS / 2) - strlen(_name.c_str()));
-    printw(_name.c_str());
-    refresh();
-    getch();
-    std::cout << "ncurses initied" << std::endl;
+    noecho();
 }
 
 Ncurses::~Ncurses(void)
 {
     endwin();
-    std::cout << "ncurses destroyed" << std::endl;
+    std::cout << "ncurses destructed" << std::endl;
 }
 
 std::string Ncurses::getName(void) const
 {
     return _name;
+}
+
+void Ncurses::loadMap(char **map)
+{
+    static int x, y = 0;
+
+    for (int x = 0 ; map[x] != NULL ; x++)
+        for (int y = 0 ; map[x][y] != '\0' ; y++)
+            printw("%c", map[x][y]);
+    getch();
 }
 
 extern "C" {
