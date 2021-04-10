@@ -11,6 +11,8 @@
 #include <iostream>
 #include <ncurses.h>
 #include <string.h>
+#include <iterator>
+#include <map>
 #include "IGraphicsModule.hpp"
 
 class Ncurses : public IGraphicsModule

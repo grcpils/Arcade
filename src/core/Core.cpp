@@ -36,7 +36,9 @@ namespace Arcade {
 
     int Core::gameloop(void)
     {
-        char **map = _gameLib->getMap("mapping/map1.nbl");
+        char **map = _gameLib->getMap("mapping/map1.pcm");
+        if (map == NULL)
+            return (-1);
         Log("Stating gameloop", 0);
         _graphicLib->loadMap(map);
         return (0);

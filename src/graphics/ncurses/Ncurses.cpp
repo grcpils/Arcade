@@ -17,7 +17,6 @@ Ncurses::Ncurses(void)
 Ncurses::~Ncurses(void)
 {
     endwin();
-    std::cout << "ncurses destructed" << std::endl;
 }
 
 std::string Ncurses::getName(void) const

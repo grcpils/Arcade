@@ -45,7 +45,38 @@ char **Pacman::getMap(char *filename)
         i++;
     }
     map[i] = NULL;
+    fclose(map_file);
     return map;
+}
+
+MapMetadata Pacman::getMetaOf(char c)
+{
+    MapMetadata ret = NIL;
+
+    switch (c) {
+        case '.':
+            ret = PATH;
+            break;
+        case '#':
+        case ' ':
+            ret = WALL;
+            break;
+        case '<':
+        case '>':
+        case '^':
+        case 'v':
+            ret = PLAYER;
+            break;
+        case 'M':
+            ret = MONSTER;
+            break;
+        case '*':
+            ret = BONUS;
+            break;
+        default:
+            break;
+    }
+    return ret;
 }
 
 /*
@@ -58,11 +89,11 @@ char **Pacman::getMap(char *filename)
 bool Pacman::checkMapFileValidity(char *filename, FILE *file)
 {
     if (file == NULL) {
-        std::cerr << "failed to open '" << rindex(filename, '/') + 1 << "'" << std::endl;
+        std::cerr << "failed to open '" << strrchr(filename, '/') + 1 << "'" << std::endl;
         return false;
     }
-    if (strcmp(rindex(filename, '.'), ".nbl") != 0) {
-        std::cerr << "file extension is incorrect '" << rindex(filename, '/') + 1 << "'" << std::endl;
+    if (strcmp(strrchr(filename, '.'), ".pcm") != 0) {
+        std::cerr << "file extension is incorrect '" << strrchr(filename, '/') + 1 << "'" << std::endl;
         return false;
     }
     return true;

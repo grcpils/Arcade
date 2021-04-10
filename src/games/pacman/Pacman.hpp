@@ -14,6 +14,8 @@
 #include <map>
 #include "IGamesModule.hpp"
 
+typedef enum MapMetadata { NIL, WALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
+
 class Pacman : public IGamesModule
 {
     public:
@@ -27,12 +29,11 @@ class Pacman : public IGamesModule
         bool keyInput(void);
 
         char **getMap(char *filename);
+        MapMetadata getMetaOf(char c);
 
     private:
         std::string _name;
         char **_map;
-        std::map<int, int> _mapCoordonate;
-        std::map<std::map<int, int>, char**> _mapMetadata;
 
         bool checkMapFileValidity(char *filename, FILE *file);
         int *getMapSize(FILE *file);
