@@ -15,6 +15,10 @@ class Sdl2 : public IGraphicsModule
 
         std::string getName(void) const;
 
+        void loadMap(char **map);
+        void refreshMap(char **map);
+        enum Keys keyPressed(void);
+
     private:
         std::string _name;
 };

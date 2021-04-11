@@ -2,14 +2,14 @@
 
 Ce projet à pour but de créer un programme d'arcade permettant de lancer différents jeux avec différentes bibliothèque graphiques.
 
-Les jeux:
-- [x] Pacman
-- [ ] Nibbler
+Les jeux:<br>
+- [x] Pacman<br>
+- [ ] Nibbler<br>
 
-Les bibliothèques graphiques:
-- [x] ncurses
-- [ ] SFML
-- [ ] SDL2
+Les bibliothèques graphiques:<br>
+- [x] ncurses<br>
+- [ ] SFML<br>
+- [ ] SDL2<br>
 
 ## Installation
 
@@ -60,12 +60,12 @@ L'extension de ce fichier doit correspondre au jeu pour le quel la carte est des
 
 Des exemples de carte sont disponible dans ce même dossier.
 
-Légende des carte:
-- `#` est un mur
-- `.` est un chemin pour le joueur
-- `@` est un bonus
-- `M` est un monstre
-- tous les autres éléments sont des murs
+Légende des carte:<br>
+- `#` est un mur<br>
+- `.` est un chemin pour le joueur<br>
+- `@` est un bonus<br>
+- `M` est un monstre<br>
+- tous les autres éléments sont des murs<br>
 
 Les autres élements sont générer de façon aléatoire au lancement du jeu
 

@@ -19,6 +19,14 @@ std::string Sfml::getName(void) const
     return _name;
 }
 
+void Sfml::loadMap(char **map)
+{}
+
+void Sfml::refreshMap(char **map)
+{}
+
+enum Keys Sfml::keyPressed(void)
+{}
 
 extern "C" {
 

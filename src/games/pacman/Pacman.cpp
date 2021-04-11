@@ -49,7 +49,7 @@ bool Pacman::keyInput(Keys key)
     }
     if (key == DOWN_KEY) {
         _map[_s_player[0]][_s_player[1]] = ' ';
-        _map[_s_player[0]++][_s_player[1]] = '^';
+        _map[_s_player[0]][_s_player[1]] = '^';
     }
     if (key == LEFT_KEY) {
         _map[_s_player[0]][_s_player[1]] = ' ';

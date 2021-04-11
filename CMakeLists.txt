@@ -14,7 +14,7 @@ set(LOCAL_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
 # Adding games library
 # -> nibbler
-# add_subdirectory(${LOCAL_GAMES_DIR}/nibbler/)
+add_subdirectory(${LOCAL_GAMES_DIR}/nibbler/)
 # -> pacman
 add_subdirectory(${LOCAL_GAMES_DIR}/pacman/)
 
@@ -22,9 +22,9 @@ add_subdirectory(${LOCAL_GAMES_DIR}/pacman/)
 # -> ncurses
 add_subdirectory(${LOCAL_GRAPHICS_DIR}/ncurses/)
 # -> sdl2
-# add_subdirectory(${LOCAL_GRAPHICS_DIR}/sdl2/)
+add_subdirectory(${LOCAL_GRAPHICS_DIR}/sdl2/)
 # # -> sfml
-# add_subdirectory(${LOCAL_GRAPHICS_DIR}/sfml/)
+add_subdirectory(${LOCAL_GRAPHICS_DIR}/sfml/)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
 # Adding core program

@@ -33,10 +33,10 @@ class Pacman : public IGamesModule
         char **getUpdatedMap(void);
 
     private:
-        std::string _name;
-        int* _mapSize;
+        std::string _name;  
+        int* _mapSize; // TODO replace int* by struct
         char **_map;
-        int* _s_player;
+        int* _s_player; // TODO replace int* by struct
 
         bool checkMapFileValidity(char *filename, FILE *file);
         int *getMapSize(FILE *file);
