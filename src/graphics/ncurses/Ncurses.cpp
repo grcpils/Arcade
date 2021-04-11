@@ -15,6 +15,8 @@ Ncurses::Ncurses(void)
 :   _name("ncurses")
 {
     initscr();
+    keypad(stdscr, TRUE);
+    curs_set(0);
     this->initScreen();
 }
 
@@ -25,7 +27,6 @@ Ncurses::Ncurses(void)
 Ncurses::~Ncurses(void)
 {
     endwin();
-    curs_set(2);
 }
 
 /*
@@ -99,27 +100,24 @@ void Ncurses::refreshMap(char **map)
 */
 Keys Ncurses::keyPressed(void)
 {
-    Keys ret = NIL;
+    Keys ret = NIL_KEY;
     int ch = getch();
 
     switch (ch) {
         case 10:
-            ret = K_MENU;
+            ret = MENU_KEY;
             break;
         case KEY_UP:
-            ret = K_UP;
+            ret = UP_KEY;
             break;
         case KEY_DOWN:
-            ret = K_DOWN;
+            ret = DOWN_KEY;
             break;
         case KEY_LEFT:
-            ret = K_LEFT;
+            ret = LEFT_KEY;
             break;
         case KEY_RIGHT:
-            ret = K_RIGHT;
-            break;
-        case 410:
-            refresh();
+            ret = RIGHT_KEY;
             break;
         default:
             break;

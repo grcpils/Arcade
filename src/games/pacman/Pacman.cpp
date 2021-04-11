@@ -13,6 +13,7 @@ Pacman::Pacman(void)
 
 Pacman::~Pacman(void)
 {
+    free(_s_player);
     for (int x = 0 ; _map[x] != NULL ; x++)
         free(_map[x]);
     free(_map);
@@ -29,28 +30,36 @@ enum Status Pacman::getStatus(void) const
 
 void Pacman::init(void)
 {
-    static int nbtry = 0;
-    srand (time(NULL));
-    int rx = (rand() + nbtry) % (_mapSize[0] - 1) + 1;
-    int ry = (rand() + nbtry) % (_mapSize[1] - 1) + 1;
-    bool player = false;
+    _s_player = this->getPlayerPos();
 
-    fprintf(stderr, "rx:%d ry:%d\n", rx, ry);
-
-    if (_map[rx][ry] == '.' && player != true) {
-        _map[rx][ry] = '<';
-        player = true;
-    }
-    if (player == false && nbtry <= 10) {
-        nbtry++;
-        this->init();
-    } else if (player != true) {
-       _map[1][2] = '<';
-    }
+    for (int x = 0 ; _map[x] != NULL ; x++)
+        for (int y = 0 ; _map[x][y] != '\0' ; y++) {
+            if (_map[x][y] == '<') {
+                _s_player[0] = x;
+                _s_player[1] = y;
+            }
+        }
 }
 
-bool Pacman::keyInput(void)
-{}
+bool Pacman::keyInput(Keys key)
+{
+    if (key == UP_KEY) {
+        _map[_s_player[0]][_s_player[1]] = ' ';
+        _map[_s_player[0]--][_s_player[1]] = 'v';
+    }
+    if (key == DOWN_KEY) {
+        _map[_s_player[0]][_s_player[1]] = ' ';
+        _map[_s_player[0]++][_s_player[1]] = '^';
+    }
+    if (key == LEFT_KEY) {
+        _map[_s_player[0]][_s_player[1]] = ' ';
+        _map[_s_player[0]][_s_player[1]--] = '>';
+    }
+    if (key == RIGHT_KEY) {
+        _map[_s_player[0]][_s_player[1]] = ' ';
+        _map[_s_player[0]][_s_player[1]++] = '<';
+    }
+}
 
 char **Pacman::getMap(char *filename)
 {
@@ -104,6 +113,19 @@ MapMetadata Pacman::getMetaOf(char c)
             break;
     }
     return ret;
+}
+
+int *Pacman::getPlayerPos(void)
+{
+    int *pos = (int*) malloc(sizeof(int) * 3);
+    for (int x = 0 ; _map[x] != NULL ; x++)
+        for (int y = 0 ; _map[x][y] != '\0' ; y++) {
+            if (_map[x][y] == '<') {
+                pos[0] = x;
+                pos[1] = y;
+            }
+        }
+    return pos;
 }
 
 /*

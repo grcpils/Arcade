@@ -10,6 +10,7 @@
 
 #include <ostream>
 #include <string>
+#include <Keys.hpp>
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 
@@ -22,7 +23,7 @@ class IGamesModule
         virtual enum Status getStatus(void) const = 0;
 
         virtual void init(void) = 0;
-        virtual bool keyInput(void) = 0;
+        virtual bool keyInput(Keys key) = 0;
 
         virtual char **getMap(char *filename) = 0;
         virtual char **getUpdatedMap(void) = 0;

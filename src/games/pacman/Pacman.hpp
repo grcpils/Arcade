@@ -27,7 +27,7 @@ class Pacman : public IGamesModule
         enum Status getStatus(void) const;
 
         void init(void);
-        bool keyInput(void);
+        bool keyInput(Keys key);
 
         char **getMap(char *filename);
         char **getUpdatedMap(void);
@@ -36,11 +36,12 @@ class Pacman : public IGamesModule
         std::string _name;
         int* _mapSize;
         char **_map;
-        int _s_player;
+        int* _s_player;
 
         bool checkMapFileValidity(char *filename, FILE *file);
         int *getMapSize(FILE *file);
         MapMetadata getMetaOf(char c);
+        int *getPlayerPos(void);
 };
 
 #endif

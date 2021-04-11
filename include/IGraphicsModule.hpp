@@ -10,8 +10,7 @@
 
 #include <ostream>
 #include <string>
-
-typedef enum Keys { K_UP, K_DOWN, K_LEFT, K_RIGHT, K_MENU, NIL } Keys;
+#include <Keys.hpp>
 
 class IGraphicsModule
 {

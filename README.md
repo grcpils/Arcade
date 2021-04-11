@@ -63,7 +63,9 @@ Des exemples de carte sont disponible dans ce même dossier.
 Légende des carte:
 - `#` est un mur
 - `.` est un chemin pour le joueur
-- tous les autres éléments sont considérer comme des mur ou des éléments hors map
+- `@` est un bonus
+- `M` est un monstre
+- tous les autres éléments sont des murs
 
 Les autres élements sont générer de façon aléatoire au lancement du jeu
 
