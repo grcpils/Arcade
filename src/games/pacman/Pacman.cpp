@@ -12,7 +12,12 @@ Pacman::Pacman(void)
 {}
 
 Pacman::~Pacman(void)
-{}
+{
+    for (int x = 0 ; _map[x] != NULL ; x++)
+        free(_map[x]);
+    free(_map);
+    free(_mapSize);
+}
 
 std::string Pacman::getName(void) const
 {
@@ -23,7 +28,26 @@ enum Status Pacman::getStatus(void) const
 {}
 
 void Pacman::init(void)
-{}
+{
+    static int nbtry = 0;
+    srand (time(NULL));
+    int rx = (rand() + nbtry) % (_mapSize[0] - 1) + 1;
+    int ry = (rand() + nbtry) % (_mapSize[1] - 1) + 1;
+    bool player = false;
+
+    fprintf(stderr, "rx:%d ry:%d\n", rx, ry);
+
+    if (_map[rx][ry] == '.' && player != true) {
+        _map[rx][ry] = '<';
+        player = true;
+    }
+    if (player == false && nbtry <= 10) {
+        nbtry++;
+        this->init();
+    } else if (player != true) {
+       _map[1][2] = '<';
+    }
+}
 
 bool Pacman::keyInput(void)
 {}
@@ -31,22 +55,25 @@ bool Pacman::keyInput(void)
 char **Pacman::getMap(char *filename)
 {
     FILE *map_file = fopen(filename, "r");
-    int *mapSize;
-    char **map;
     char line[255];
     int i = 0;
 
     if (this->checkMapFileValidity(filename, map_file) == false)
         return NULL;
-    mapSize = this->getMapSize(map_file);
-    map = (char**) malloc(sizeof(char*) * (mapSize[0] + 1));
+    _mapSize = this->getMapSize(map_file);
+    _map = (char**) malloc(sizeof(char*) * (_mapSize[0] + 1));
     while (fgets(line, 255, map_file)) {
-        map[i] = strdup(line);
+        _map[i] = strdup(line);
         i++;
     }
-    map[i] = NULL;
+    _map[i] = NULL;
     fclose(map_file);
-    return map;
+    return _map;
+}
+
+char **Pacman::getUpdatedMap(void)
+{
+    return _map;
 }
 
 MapMetadata Pacman::getMetaOf(char c)

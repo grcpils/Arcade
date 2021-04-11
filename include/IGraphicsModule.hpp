@@ -11,6 +11,8 @@
 #include <ostream>
 #include <string>
 
+typedef enum Keys { K_UP, K_DOWN, K_LEFT, K_RIGHT, K_MENU, NIL } Keys;
+
 class IGraphicsModule
 {
     public:
@@ -19,6 +21,8 @@ class IGraphicsModule
         virtual std::string getName(void) const = 0;
 
         virtual void loadMap(char **map) = 0;
+        virtual void refreshMap(char **map) = 0;
+        virtual enum Keys keyPressed(void) = 0;
 
     private:
 };

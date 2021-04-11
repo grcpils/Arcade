@@ -25,6 +25,7 @@ class IGamesModule
         virtual bool keyInput(void) = 0;
 
         virtual char **getMap(char *filename) = 0;
+        virtual char **getUpdatedMap(void) = 0;
 
     private:
 };

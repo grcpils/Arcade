@@ -36,7 +36,8 @@ class DLLoader
             _instance = (*getInstance)();
         }
 
-        ~DLLoader(void);
+        ~DLLoader(void)
+        {}
 
         T *getInstance(void) const
         {

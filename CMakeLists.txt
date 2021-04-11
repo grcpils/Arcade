@@ -26,6 +26,7 @@ add_subdirectory(${LOCAL_GRAPHICS_DIR}/ncurses/)
 # # -> sfml
 # add_subdirectory(${LOCAL_GRAPHICS_DIR}/sfml/)
 
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
 # Adding core program
 add_executable(${PROJECT_NAME}
     ${LOCAL_SRC_DIR}/main.cpp

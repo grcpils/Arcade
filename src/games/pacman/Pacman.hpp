@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iterator>
 #include <map>
+#include <random>
 #include "IGamesModule.hpp"
 
 typedef enum MapMetadata { NIL, WALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
@@ -29,14 +30,17 @@ class Pacman : public IGamesModule
         bool keyInput(void);
 
         char **getMap(char *filename);
-        MapMetadata getMetaOf(char c);
+        char **getUpdatedMap(void);
 
     private:
         std::string _name;
+        int* _mapSize;
         char **_map;
+        int _s_player;
 
         bool checkMapFileValidity(char *filename, FILE *file);
         int *getMapSize(FILE *file);
+        MapMetadata getMetaOf(char c);
 };
 
 #endif

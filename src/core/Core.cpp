@@ -31,16 +31,23 @@ namespace Arcade {
     {
         _graphicPtr->destroyInstance();
         _gamePtr->destroyInstance();
+        delete _gamePtr;
+        delete _graphicPtr;
         Log("Core destroyed", 0);
     }
 
     int Core::gameloop(void)
     {
         char **map = _gameLib->getMap("mapping/map1.pcm");
+        Keys input = NIL;
         if (map == NULL)
             return (-1);
-        Log("Stating gameloop", 0);
+        _gameLib->init();
         _graphicLib->loadMap(map);
+        while (input != K_MENU) {
+            input = _graphicLib->keyPressed();
+            _graphicLib->refreshMap(_gameLib->getUpdatedMap());
+        }
         return (0);
     }
 
