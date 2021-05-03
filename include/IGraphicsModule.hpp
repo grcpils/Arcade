@@ -10,7 +10,10 @@
 
 #include <ostream>
 #include <string>
-#include <Keys.hpp>
+#include <iterator>
+#include <vector>
+#include "Keys.hpp"
+#include "Position.hpp"
 
 class IGraphicsModule
 {
@@ -19,8 +22,8 @@ class IGraphicsModule
 
         virtual std::string getName(void) const = 0;
 
-        virtual void loadMap(char **map) = 0;
-        virtual void refreshMap(char **map) = 0;
+        virtual void loadMap(std::vector<std::vector<char>> map) = 0;
+        virtual void refreshMap(std::vector<std::vector<char>> map) = 0;
         virtual enum Keys keyPressed(void) = 0;
 
     private:

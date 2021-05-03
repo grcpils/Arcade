@@ -8,16 +8,13 @@
 #include "Pacman.hpp"
 
 Pacman::Pacman(void)
-    : _name("pacman")
+    : _name("pacman"), _lastInput(RIGHT_KEY), _status(RUN)
 {}
 
 Pacman::~Pacman(void)
 {
-    free(_s_player);
-    for (int x = 0 ; _map[x] != NULL ; x++)
-        free(_map[x]);
-    free(_map);
     free(_mapSize);
+    free(_s_player);
 }
 
 std::string Pacman::getName(void) const
@@ -26,61 +23,91 @@ std::string Pacman::getName(void) const
 }
 
 enum Status Pacman::getStatus(void) const
-{}
+{
+    return _status;
+}
 
 void Pacman::init(void)
 {
     _s_player = this->getPlayerPos();
-
-    for (int x = 0 ; _map[x] != NULL ; x++)
-        for (int y = 0 ; _map[x][y] != '\0' ; y++) {
-            if (_map[x][y] == '<') {
-                _s_player[0] = x;
-                _s_player[1] = y;
-            }
-        }
 }
 
 bool Pacman::keyInput(Keys key)
 {
-    if (key == UP_KEY) {
-        _map[_s_player[0]][_s_player[1]] = ' ';
-        _map[_s_player[0]--][_s_player[1]] = 'v';
+    Keys k = key;
+    pos_t tmp;
+    char playerType = '<';
+
+    tmp.x = _s_player->x;
+    tmp.y = _s_player->y;
+
+    if (key == NIL_KEY)
+        k = _lastInput;
+
+    switch (k) {
+        case RIGHT_KEY:
+            tmp.y++;
+            playerType = '<';
+            break;
+        case LEFT_KEY:
+            tmp.y--;
+            playerType = '>';
+            break;
+        case UP_KEY:
+            tmp.x--;
+            playerType = 'v';
+            break;
+        case DOWN_KEY:
+            tmp.x++;
+            playerType = '^';
+            break;
+        default:
+            return false;
+            break;
     }
-    if (key == DOWN_KEY) {
-        _map[_s_player[0]][_s_player[1]] = ' ';
-        _map[_s_player[0]][_s_player[1]] = '^';
+
+    if (_mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
+            _map.at(_s_player->x).at(_s_player->y) = ' ';
+            _s_player->x = tmp.x;
+            _s_player->y = tmp.y;
+            _map.at(_s_player->x).at(_s_player->y) = playerType;
+            if (key != NIL_KEY)
+                _lastInput = key;
+            return true;
     }
-    if (key == LEFT_KEY) {
-        _map[_s_player[0]][_s_player[1]] = ' ';
-        _map[_s_player[0]][_s_player[1]--] = '>';
-    }
-    if (key == RIGHT_KEY) {
-        _map[_s_player[0]][_s_player[1]] = ' ';
-        _map[_s_player[0]][_s_player[1]++] = '<';
-    }
+    return false;
 }
 
-char **Pacman::getMap(char *filename)
+std::vector<std::vector<char>> Pacman::getMap(char *filename)
 {
+    std::vector<char> vline;
     FILE *map_file = fopen(filename, "r");
     char line[255];
     int i = 0;
 
-    if (this->checkMapFileValidity(filename, map_file) == false)
-        return NULL;
-    _mapSize = this->getMapSize(map_file);
-    _map = (char**) malloc(sizeof(char*) * (_mapSize[0] + 1));
-    while (fgets(line, 255, map_file)) {
-        _map[i] = strdup(line);
-        i++;
+    if (map_file == NULL) {
+        fprintf(stderr, "Can't open file: %s\n", filename);
+        return _map;
     }
-    _map[i] = NULL;
+    if (this->checkMapFileValidity(filename, map_file) == false)
+        return _map;
+    _mapSize = this->getMapSize(map_file);
+    while (fgets(line, 255, map_file)) {
+        for (int x = 0 ; line[x] != '\0' ; x++) {
+            vline.push_back(line[x]);
+        }
+        _map.push_back(vline);
+        vline.clear();
+    }
     fclose(map_file);
+    this->buildMetaData();
     return _map;
 }
 
-char **Pacman::getUpdatedMap(void)
+std::vector<std::vector<char>> Pacman::getUpdatedMap(void)
 {
     return _map;
 }
@@ -93,15 +120,15 @@ MapMetadata Pacman::getMetaOf(char c)
         case '.':
             ret = PATH;
             break;
+        case '<':
+        case '>':
+        case 'v':
+        case '^':
+            ret = PLAYER;
+            break;
         case '#':
         case ' ':
             ret = WALL;
-            break;
-        case '<':
-        case '>':
-        case '^':
-        case 'v':
-            ret = PLAYER;
             break;
         case 'M':
             ret = MONSTER;
@@ -115,16 +142,31 @@ MapMetadata Pacman::getMetaOf(char c)
     return ret;
 }
 
-int *Pacman::getPlayerPos(void)
+void Pacman::buildMetaData(void)
 {
-    int *pos = (int*) malloc(sizeof(int) * 3);
-    for (int x = 0 ; _map[x] != NULL ; x++)
-        for (int y = 0 ; _map[x][y] != '\0' ; y++) {
-            if (_map[x][y] == '<') {
-                pos[0] = x;
-                pos[1] = y;
+    std::vector<MapMetadata> meta(_mapSize->y, NIL);
+    std::vector<std::vector<MapMetadata>> metaData(_mapSize->x, meta);
+
+    for (int x = 0 ; x < _map.size() ; x++) {
+        for (int y = 0 ; y < _map.at(x).size() ; y++) {
+            metaData.at(x).at(y) = this->getMetaOf(_map.at(x).at(y));
+        }
+    }
+    _mapMetaData = metaData;
+}
+
+pos_t *Pacman::getPlayerPos(void)
+{
+    pos_t *pos = (pos_t*) malloc(sizeof(pos_t));
+
+    for (int x = 0 ; x < _map.size() ; x++) {
+        for (int y = 0 ; y < _map.at(x).size() ; y++) {
+            if (_map.at(x).at(y) == '<') {
+                pos->x = x;
+                pos->y = y;
             }
         }
+    }
     return pos;
 }
 
@@ -154,21 +196,21 @@ bool Pacman::checkMapFileValidity(char *filename, FILE *file)
 ** @param file
 ** @return int** - [0] = height | [1] = width
 */
-int *Pacman::getMapSize(FILE *file)
+pos_t *Pacman::getMapSize(FILE *file)
 {
-    int *size = (int*) malloc(sizeof(int) * 3);
+    pos_t *size = (pos_t*) malloc(sizeof(pos_t));
     char chr;
 
-    size[0] = 0;
-    size[1] = 0;
+    size->x = 0;
+    size->y = 0;
     while ((chr = fgetc(file)) != EOF) {
         if (chr == '\n')
-            size[0]++;
-        if (chr != '\n' && size[0] == 0)
-            size[1]++;
+            size->x++;
+        if (chr != '\n' && size->x == 0)
+            size->y++;
     }
-    size[0]++;
-    size[1]++;
+    size->x++;
+    size->y++;
     rewind(file);
     return size;
 }

@@ -19,10 +19,10 @@ std::string Sfml::getName(void) const
     return _name;
 }
 
-void Sfml::loadMap(char **map)
+void Sfml::loadMap(std::vector<std::vector<char>> map)
 {}
 
-void Sfml::refreshMap(char **map)
+void Sfml::refreshMap(std::vector<std::vector<char>> map)
 {}
 
 enum Keys Sfml::keyPressed(void)

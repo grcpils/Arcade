@@ -55,6 +55,8 @@ void Ncurses::initScreen(void)
 
     mvwprintw(_w_command, 1, 2, "QUIT: press enter", 0);
     mvwprintw(_w_score, 1, 2, "Score: %d", 0);
+    nodelay(_w_main, true);
+    timeout(1);
     refresh();
 }
 
@@ -63,23 +65,24 @@ void Ncurses::initScreen(void)
 **
 ** @param map
 */
-void Ncurses::loadMap(char **map)
+void Ncurses::loadMap(std::vector<std::vector<char>> map)
 {
-    int *size = this->getSizeOfArr(map);
-    int h = (LINES / 2) - (size[0] / 2);
-    int w = (COLS / 2) - (size[1] / 2);
+    pos_t *size = this->getSizeOfMap(map);
+    int h = (LINES / 2) - (size->x / 2);
+    int w = (COLS / 2) - (size->y / 2);
 
-    for (int x = 0 ; map[x] != NULL ; x++) {
-        for (int y = 0 ; map[x][y] != '\0' ; y++) {
+    for (int x = 0 ; x < map.size() ; x++) {
+        for (int y = 0 ; y < map.at(x).size() ; y++) {
             wmove(_w_main, h, w);
             wrefresh(_w_main);
-            wprintw(_w_main, "%c", map[x][y]);
+            wprintw(_w_main, "%c", map.at(x).at(y));
             w++;
         }
         h++;
-        w = (COLS / 2) - size[1] / 2;
+        w = (COLS / 2) - size->y / 2;
         box(_w_main, ACS_VLINE, ACS_HLINE);
     }
+
     free(size);
 }
 
@@ -88,7 +91,7 @@ void Ncurses::loadMap(char **map)
 **
 ** @param map
 */
-void Ncurses::refreshMap(char **map)
+void Ncurses::refreshMap(std::vector<std::vector<char>> map)
 {
     this->loadMap(map);
 }
@@ -131,27 +134,17 @@ bool Ncurses::updateScore(int score)
 }
 
 /*
-** @brief get size of an array
+** @brief get size of an vector<vector<char>>
 **
 ** @param arr
-** @return int* with [0] = number of line & [1] = number of cols
+** @return pos_t*
 */
-int *Ncurses::getSizeOfArr(char **arr) const
+pos_t *Ncurses::getSizeOfMap(std::vector<std::vector<char>> vec) const
 {
-    int *size = (int*) malloc(sizeof(int) * 3);
-    char chr;
+    pos_t *size = (pos_t*) malloc(sizeof(pos_t));
 
-    size[0] = 0;
-    size[1] = 0;
-    for (int x = 0 ; arr[x] != NULL ; x++)
-        for (int y = 0 ; arr[x][y] != '\0' ; y++) {
-            if (arr[x][y] == '\n')
-                size[0]++;
-            if (arr[x][y] != '\n' && size[0] == 0)
-                size[1]++;
-        }
-    size[0]++;
-    size[1]++;
+    size->x = vec.size();
+    size->y = vec.at(0).size();
     return size;
 }
 

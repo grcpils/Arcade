@@ -22,10 +22,10 @@ class Ncurses : public IGraphicsModule
         ~Ncurses(void);
 
         std::string getName(void) const;
-        void loadMap(char **map);
+        void loadMap(std::vector<std::vector<char>> map);
         bool updateScore(int score);
         Keys keyPressed(void);
-        void refreshMap(char **map);
+        void refreshMap(std::vector<std::vector<char>> map);
 
     private:
         std::string _name;
@@ -33,7 +33,7 @@ class Ncurses : public IGraphicsModule
         WINDOW *_w_score;
         WINDOW *_w_command;
 
-        int *getSizeOfArr(char **arr) const;
+        pos_t *getSizeOfMap(std::vector<std::vector<char>> vec) const;
         void initScreen(void);
 };
 

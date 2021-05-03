@@ -15,8 +15,8 @@ class Sfml : public IGraphicsModule
 
         std::string getName(void) const;
 
-        void loadMap(char **map);
-        void refreshMap(char **map);
+        void loadMap(std::vector<std::vector<char>> map);
+        void refreshMap(std::vector<std::vector<char>> map);
         enum Keys keyPressed(void);
 
     private:

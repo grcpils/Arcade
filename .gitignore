@@ -6,3 +6,5 @@ Makefile
 *.so
 arcade
 build
+vgcore.*
+log_arcade

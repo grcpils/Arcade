@@ -38,15 +38,14 @@ namespace Arcade {
 
     int Core::gameloop(void)
     {
-        char **map = _gameLib->getMap("mapping/map1.pcm");
+        std::vector<std::vector<char>> map = _gameLib->getMap("mapping/map.pcm");
         Keys input = NIL_KEY;
-        if (map == NULL)
+        if (map.empty() == 1)
             return (-1);
         _gameLib->init();
         _graphicLib->loadMap(map);
         while (input != MENU_KEY) {
             input = _graphicLib->keyPressed();
-            fprintf(stderr, "key %d\n", input);
             _gameLib->keyInput(input);
             _graphicLib->refreshMap(_gameLib->getUpdatedMap());
         }

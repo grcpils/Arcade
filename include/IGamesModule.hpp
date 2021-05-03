@@ -10,7 +10,10 @@
 
 #include <ostream>
 #include <string>
-#include <Keys.hpp>
+#include <iterator>
+#include <vector>
+#include "Keys.hpp"
+#include "Position.hpp"
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 
@@ -25,8 +28,8 @@ class IGamesModule
         virtual void init(void) = 0;
         virtual bool keyInput(Keys key) = 0;
 
-        virtual char **getMap(char *filename) = 0;
-        virtual char **getUpdatedMap(void) = 0;
+        virtual std::vector<std::vector<char>> getMap(char *filename) = 0;
+        virtual std::vector<std::vector<char>> getUpdatedMap(void) = 0;
 
     private:
 };
