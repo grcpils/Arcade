@@ -23,8 +23,6 @@ namespace Arcade {
 
         _gamePtr = new DLLoader<IGamesModule>("lib/arcade_pacman.so");
         _gameLib = _gamePtr->getInstance();
-
-        this->gameloop();
     }
 
     Core::~Core(void)

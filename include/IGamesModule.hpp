@@ -38,4 +38,20 @@ class IGamesModule
     private:
 };
 
+/*!
+** @fn IGamesModule *getInstance(void)
+** @brief Get an Instance of IGamesModule Object
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @return Pointer to IGamesModule Object
+*/
+
+/*!
+** @fn void deleteInstance(IGamesModule *instance)
+** @brief Delete an Instance of IGamesModule Object
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @param instance
+*/
+
 #endif

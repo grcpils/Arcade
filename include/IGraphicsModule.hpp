@@ -34,4 +34,20 @@ class IGraphicsModule
     private:
 };
 
+/*!
+** @fn IGraphicsModule *getInstance(void)
+** @brief Get an Instance of IGraphicsModule Object
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @return Pointer to IGraphicsModule Object
+*/
+
+/*!
+** @fn void deleteInstance(IGraphicsModule *instance)
+** @brief Delete an Instance of IGraphicsModule Object
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @param instance
+*/
+
 #endif

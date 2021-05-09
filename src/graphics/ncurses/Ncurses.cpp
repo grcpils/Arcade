@@ -66,9 +66,12 @@ void Ncurses::initScreen(void)
 }
 
 /*!
-** @brief load map from char**
+** @brief Load map with MapContainer and MetaContainer
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
 ** @param map
+** @param meta
+**
 */
 void Ncurses::loadMap(MapContainer map, MetaContainer meta)
 {
@@ -92,9 +95,12 @@ void Ncurses::loadMap(MapContainer map, MetaContainer meta)
 }
 
 /*!
-** @brief refresh map after game edit it
+** @brief Refresh map from MapContainer and MetaContainer
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
 ** @param map
+** @param meta
+**
 */
 void Ncurses::refreshMap(MapContainer map, MetaContainer meta)
 {
@@ -102,7 +108,9 @@ void Ncurses::refreshMap(MapContainer map, MetaContainer meta)
 }
 
 /*!
-** @brief return value of pressed key
+** @brief Return actual pressed Keys in Arcade Standard Keys Type
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
 **
 ** @return Keys
 */
@@ -134,12 +142,13 @@ Keys Ncurses::keyPressed(void)
 }
 
 /*!
-** @brief update the score
+** @brief Update the score from an integer
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
 ** @param score
 **
-** @returns - true if success
-**          - false in case of error
+** @return true
+** @return fals
 */
 bool Ncurses::updateScore(int score)
 {
@@ -147,10 +156,12 @@ bool Ncurses::updateScore(int score)
 }
 
 /*!
-** @brief get size of an vector<vector<char>>
+** @brief Get the size of Map from MapContainer
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
-** @param arr
-** @return pos_t*
+** @param map
+**
+** @return pos_t* with x equal height and y equal width of map
 */
 pos_t *Ncurses::getSizeOfMap(MapContainer map) const
 {
