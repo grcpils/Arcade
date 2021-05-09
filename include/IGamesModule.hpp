@@ -14,6 +14,8 @@
 #include <vector>
 #include "Keys.hpp"
 #include "Position.hpp"
+#include "Map.hpp"
+#include "Metadata.hpp"
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 
@@ -24,12 +26,14 @@ class IGamesModule
 
         virtual std::string getName(void) const = 0;
         virtual enum Status getStatus(void) const = 0;
+        virtual int getScore(void) const = 0;
 
         virtual void init(void) = 0;
         virtual bool keyInput(Keys key) = 0;
 
-        virtual std::vector<std::vector<char>> getMap(char *filename) = 0;
-        virtual std::vector<std::vector<char>> getUpdatedMap(void) = 0;
+        virtual MapContainer getMap(char *filename) = 0;
+        virtual MapContainer getUpdatedMap(void) = 0;
+        virtual MetaContainer getMetaMap(void) = 0;
 
     private:
 };

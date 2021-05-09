@@ -7,7 +7,7 @@
 
 #include "Ncurses.hpp"
 
-/*
+/*!
 ** @brief Construct a new Ncurses object
 **
 */
@@ -20,7 +20,7 @@ Ncurses::Ncurses(void)
     this->initScreen();
 }
 
-/*
+/*!
 ** @brief Destroy the Ncurses object
 **
 */
@@ -29,7 +29,7 @@ Ncurses::~Ncurses(void)
     endwin();
 }
 
-/*
+/*!
 ** @brief get name of current lib
 **
 ** @return std::string
@@ -39,7 +39,12 @@ std::string Ncurses::getName(void) const
     return _name;
 }
 
-/*
+void Ncurses::setCurrentGame(std::string currentGame)
+{
+    _currentGame = currentGame;
+}
+
+/*!
 ** @brief init all subwindow of screen
 **
 */
@@ -60,12 +65,12 @@ void Ncurses::initScreen(void)
     refresh();
 }
 
-/*
+/*!
 ** @brief load map from char**
 **
 ** @param map
 */
-void Ncurses::loadMap(std::vector<std::vector<char>> map)
+void Ncurses::loadMap(MapContainer map, MetaContainer meta)
 {
     pos_t *size = this->getSizeOfMap(map);
     int h = (LINES / 2) - (size->x / 2);
@@ -86,17 +91,17 @@ void Ncurses::loadMap(std::vector<std::vector<char>> map)
     free(size);
 }
 
-/*
+/*!
 ** @brief refresh map after game edit it
 **
 ** @param map
 */
-void Ncurses::refreshMap(std::vector<std::vector<char>> map)
+void Ncurses::refreshMap(MapContainer map, MetaContainer meta)
 {
-    this->loadMap(map);
+    this->loadMap(map, meta);
 }
 
-/*
+/*!
 ** @brief return value of pressed key
 **
 ** @return Keys
@@ -128,23 +133,31 @@ Keys Ncurses::keyPressed(void)
     return ret;
 }
 
+/*!
+** @brief update the score
+**
+** @param score
+**
+** @returns - true if success
+**          - false in case of error
+*/
 bool Ncurses::updateScore(int score)
 {
-
+    mvwprintw(_w_score, 1, 2, "Score: %d", score);
 }
 
-/*
+/*!
 ** @brief get size of an vector<vector<char>>
 **
 ** @param arr
 ** @return pos_t*
 */
-pos_t *Ncurses::getSizeOfMap(std::vector<std::vector<char>> vec) const
+pos_t *Ncurses::getSizeOfMap(MapContainer map) const
 {
     pos_t *size = (pos_t*) malloc(sizeof(pos_t));
 
-    size->x = vec.size();
-    size->y = vec.at(0).size();
+    size->x = map.size();
+    size->y = map.at(0).size();
     return size;
 }
 

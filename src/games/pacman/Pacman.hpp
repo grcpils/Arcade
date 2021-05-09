@@ -12,8 +12,6 @@
 #include <iostream>
 #include "IGamesModule.hpp"
 
-typedef enum MapMetadata { NIL, WALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
-
 class Pacman : public IGamesModule
 {
     public:
@@ -22,21 +20,24 @@ class Pacman : public IGamesModule
 
         virtual std::string getName(void) const;
         enum Status getStatus(void) const;
+        int getScore(void) const;
 
         void init(void);
         bool keyInput(Keys key);
 
-        std::vector<std::vector<char>> getMap(char *filename);
-        std::vector<std::vector<char>> getUpdatedMap(void);
+        MapContainer getMap(char *filename);
+        MapContainer getUpdatedMap(void);
+        MetaContainer getMetaMap(void);
 
     private:
         std::string _name;
         pos_t* _mapSize;
-        std::vector<std::vector<char>> _map;
-        std::vector<std::vector<MapMetadata>> _mapMetaData;
+        MapContainer _map;
+        MetaContainer _mapMetaData;
         pos_t* _s_player;
         Keys _lastInput;
         Status _status;
+        int _score;
 
         bool checkMapFileValidity(char *filename, FILE *file);
         pos_t *getMapSize(FILE *file);

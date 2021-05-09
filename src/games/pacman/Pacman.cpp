@@ -70,6 +70,11 @@ bool Pacman::keyInput(Keys key)
         _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
         _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
+            if (_map.at(tmp.x).at(tmp.y) == '.')
+                _score += 10;
+            if (_map.at(tmp.x).at(tmp.y) == '*')
+                _score += 100;
+
             _map.at(_s_player->x).at(_s_player->y) = ' ';
             _s_player->x = tmp.x;
             _s_player->y = tmp.y;
@@ -79,6 +84,11 @@ bool Pacman::keyInput(Keys key)
             return true;
     }
     return false;
+}
+
+int Pacman::getScore(void) const
+{
+    return _score;
 }
 
 std::vector<std::vector<char>> Pacman::getMap(char *filename)
@@ -107,9 +117,14 @@ std::vector<std::vector<char>> Pacman::getMap(char *filename)
     return _map;
 }
 
-std::vector<std::vector<char>> Pacman::getUpdatedMap(void)
+MapContainer Pacman::getUpdatedMap(void)
 {
     return _map;
+}
+
+MetaContainer Pacman::getMetaMap(void)
+{
+    return _mapMetaData;
 }
 
 MapMetadata Pacman::getMetaOf(char c)

@@ -15,9 +15,12 @@ class Sdl2 : public IGraphicsModule
 
         std::string getName(void) const;
 
-        void loadMap(std::vector<std::vector<char>> map);
-        void refreshMap(std::vector<std::vector<char>> map);
+        void loadMap(MapContainer map, MetaContainer meta);
+        bool updateScore(int score);
+        void refreshMap(MapContainer map, MetaContainer meta);
         enum Keys keyPressed(void);
+
+        void setCurrentGame(std::string currentGame);
 
     private:
         std::string _name;

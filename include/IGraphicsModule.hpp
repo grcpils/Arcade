@@ -14,6 +14,8 @@
 #include <vector>
 #include "Keys.hpp"
 #include "Position.hpp"
+#include "Map.hpp"
+#include "Metadata.hpp"
 
 class IGraphicsModule
 {
@@ -22,9 +24,12 @@ class IGraphicsModule
 
         virtual std::string getName(void) const = 0;
 
-        virtual void loadMap(std::vector<std::vector<char>> map) = 0;
-        virtual void refreshMap(std::vector<std::vector<char>> map) = 0;
+        virtual void loadMap(MapContainer map, MetaContainer meta) = 0;
+        virtual void refreshMap(MapContainer map, MetaContainer meta) = 0;
+        virtual bool updateScore(int score) = 0;
         virtual enum Keys keyPressed(void) = 0;
+
+        virtual void setCurrentGame(std::string currentGame) = 0;
 
     private:
 };

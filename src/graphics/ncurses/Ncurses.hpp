@@ -22,18 +22,21 @@ class Ncurses : public IGraphicsModule
         ~Ncurses(void);
 
         std::string getName(void) const;
-        void loadMap(std::vector<std::vector<char>> map);
+        void loadMap(MapContainer map, MetaContainer meta);
         bool updateScore(int score);
         Keys keyPressed(void);
-        void refreshMap(std::vector<std::vector<char>> map);
+        void refreshMap(MapContainer map, MetaContainer meta);
+
+        void setCurrentGame(std::string currentGame);
 
     private:
         std::string _name;
+        std::string _currentGame;
         WINDOW *_w_main;
         WINDOW *_w_score;
         WINDOW *_w_command;
 
-        pos_t *getSizeOfMap(std::vector<std::vector<char>> vec) const;
+        pos_t *getSizeOfMap(MapContainer map) const;
         void initScreen(void);
 };
 

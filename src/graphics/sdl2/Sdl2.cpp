@@ -19,10 +19,10 @@ std::string Sdl2::getName(void) const
     return _name;
 }
 
-void Sdl2::loadMap(std::vector<std::vector<char>> map)
+void Sdl2::loadMap(MapContainer map, MetaContainer meta)
 {}
 
-void Sdl2::refreshMap(std::vector<std::vector<char>> map)
+void Sdl2::refreshMap(MapContainer map, MetaContainer meta)
 {}
 
 enum Keys Sdl2::keyPressed(void)

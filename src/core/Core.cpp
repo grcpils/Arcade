@@ -43,11 +43,12 @@ namespace Arcade {
         if (map.empty() == 1)
             return (-1);
         _gameLib->init();
-        _graphicLib->loadMap(map);
+        _graphicLib->loadMap(map, _gameLib->getMetaMap());
         while (input != MENU_KEY) {
             input = _graphicLib->keyPressed();
             _gameLib->keyInput(input);
-            _graphicLib->refreshMap(_gameLib->getUpdatedMap());
+            _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
+            _graphicLib->updateScore(_gameLib->getScore());
         }
         return (0);
     }
