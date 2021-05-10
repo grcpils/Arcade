@@ -25,3 +25,33 @@ jobs:
         shell: bash
         run: |
           cmake --build .
+
+      - name: Find Sfml
+        shell: bash
+        run: |
+          ls lib | grep 'arcade_sfml.so'
+
+      - name: Find Ncurses
+        shell: bash
+        run: |
+          ls lib | grep 'arcade_ncurses.so'
+
+      - name: Find Sdl2
+        shell: bash
+        run: |
+          ls lib | grep 'arcade_sdl2.so'
+
+      - name: Find Pacman
+        shell: bash
+        run: |
+          ls lib | grep 'arcade_pacman.so'
+
+      - name: Find Nibbler
+        shell: bash
+        run: |
+          ls lib | grep 'arcade_nibbler.so'
+
+      - name: Find Arcade
+        shell: bash
+        run: |
+          ls . | grep 'arcade'
