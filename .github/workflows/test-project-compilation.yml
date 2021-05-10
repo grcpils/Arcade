@@ -1,0 +1,27 @@
+name: Compilation CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+  workflow_dispatch:
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Create cmake files
+        shell: bash
+        run: |
+          cmake .
+
+      - name: Compile project with cmake
+        shell: bash
+        run: |
+          cmake --build .
