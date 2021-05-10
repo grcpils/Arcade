@@ -11,7 +11,8 @@
 namespace Arcade {
 
     Core::Core(int ac, char **av)
-    :   _graphicLib(NULL), _gameLib(NULL), _graphicPtr(NULL), _gamePtr(NULL)
+    :   _graphicLib(NULL), _gameLib(NULL), _graphicPtr(NULL), _gamePtr(NULL),
+        _exitStatus(false)
     {
         Log("New Core", 0);
         if (ac < 2) {
@@ -42,13 +43,25 @@ namespace Arcade {
             return (-1);
         _gameLib->init();
         _graphicLib->loadMap(map, _gameLib->getMetaMap());
-        while (input != MENU_KEY) {
-            input = _graphicLib->keyPressed();
-            _gameLib->keyInput(input);
+        std::thread imanager(&Core::inputManager, this);
+        fprintf(stderr, "Main loop Started.\n");
+        while (_exitStatus != true) {
             _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
             _graphicLib->updateScore(_gameLib->getScore());
         }
         return (0);
+    }
+
+    void Core::inputManager(void)
+    {
+        Keys input = NIL_KEY;
+
+        fprintf(stderr, "Input Manager Started.\n");
+        while (input != NIL_KEY) {
+            input = _graphicLib->keyPressed();
+            _gameLib->keyInput(input);
+        }
+        _exitStatus = true;
     }
 
     void Core::usage(void)

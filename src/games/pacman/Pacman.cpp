@@ -76,9 +76,11 @@ bool Pacman::keyInput(Keys key)
                 _score += 100;
 
             _map.at(_s_player->x).at(_s_player->y) = ' ';
+            _mapMetaData.at(_s_player->x).at(_s_player->y) = PATH;
             _s_player->x = tmp.x;
             _s_player->y = tmp.y;
             _map.at(_s_player->x).at(_s_player->y) = playerType;
+            _mapMetaData.at(_s_player->x).at(_s_player->y) = PLAYER;
             if (key != NIL_KEY)
                 _lastInput = key;
             return true;
@@ -142,8 +144,10 @@ MapMetadata Pacman::getMetaOf(char c)
             ret = PLAYER;
             break;
         case '#':
-        case ' ':
             ret = WALL;
+            break;
+        case ' ':
+            ret = IWALL;
             break;
         case 'M':
             ret = MONSTER;

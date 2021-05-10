@@ -9,6 +9,7 @@
 #define IGAMES_HPP
 
 #include <ostream>
+#include <thread>
 #include <string>
 #include <iterator>
 #include <vector>

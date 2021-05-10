@@ -26,6 +26,9 @@ namespace Arcade {
             DLLoader<IGamesModule> *_gamePtr;
             IGraphicsModule *_graphicLib;
             IGamesModule *_gameLib;
+            bool _exitStatus;
+
+            void inputManager(void);
     };
 
 }

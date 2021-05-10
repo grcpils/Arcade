@@ -9,8 +9,12 @@
 #include "IGraphicsModule.hpp"
 #include "Pixel.hpp"
 
+
 namespace Sfml
 {
+
+    typedef std::vector<sf::RectangleShape> ShapedMapContainer;
+
     class Sfml : public IGraphicsModule
     {
         public:
@@ -29,10 +33,12 @@ namespace Sfml
         private:
             std::string _name;
             std::string _currentGame;
-            std::vector<Pixel> _PixelsMap;
+            ShapedMapContainer _ShapeMap;
 
             sf::RenderWindow _window;
             sf::Event _events;
 
+            enum Keys readKeyInput(sf::Keyboard::Key keyCode);
+            ShapedMapContainer contructShapedMap(MapContainer map, MetaContainer meta);
     };
 }

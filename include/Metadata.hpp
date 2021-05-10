@@ -10,7 +10,18 @@
 
 #include <vector>
 
-typedef enum MapMetadata { NIL, WALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
+/*!
+** @brief Metadata possible value
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+*/
+typedef enum MapMetadata { NIL, WALL, IWALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
+
+/*!
+** @brief Map Metadata container
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+*/
 typedef std::vector<std::vector<MapMetadata>> MetaContainer;
 
 #endif

@@ -11,6 +11,7 @@
 #define DEBUG true
 
 #include <iostream>
+#include <thread>
 #include "IGamesModule.hpp"
 #include "IGraphicsModule.hpp"
 #include "DLLoader.hpp"

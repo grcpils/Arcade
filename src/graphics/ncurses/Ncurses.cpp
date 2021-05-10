@@ -5,6 +5,16 @@
 ** Created 26/03/2021 11:34:48
 */
 
+/*!
+** @file Ncurses.cpp
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @version 0.1
+** @date 2021-05-10
+**
+** @copyright Copyright (c) 2021
+*/
+
 #include "Ncurses.hpp"
 
 /*!
@@ -108,7 +118,7 @@ void Ncurses::refreshMap(MapContainer map, MetaContainer meta)
 }
 
 /*!
-** @brief Return actual pressed Keys in Arcade Standard Keys Type
+** @brief Return actual pressed Key in Arcade Standard Keys Type
 ** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
 **
@@ -121,7 +131,7 @@ Keys Ncurses::keyPressed(void)
 
     switch (ch) {
         case 10:
-            ret = MENU_KEY;
+            ret = EXIT_KEY;
             break;
         case KEY_UP:
             ret = UP_KEY;

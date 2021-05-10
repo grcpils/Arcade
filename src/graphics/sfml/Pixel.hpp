@@ -16,7 +16,7 @@ namespace Sfml
         public:
             Pixel(void);
             ~Pixel(void);
-            
+
         private:
     };
 
