@@ -34,7 +34,6 @@ class Ncurses : public IGraphicsModule
         std::string _currentGame;
         WINDOW *_w_main;
         WINDOW *_w_score;
-        WINDOW *_w_command;
 
         pos_t *getSizeOfMap(MapContainer map) const;
         void initScreen(void);

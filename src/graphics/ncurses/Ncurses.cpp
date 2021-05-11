@@ -61,14 +61,11 @@ void Ncurses::setCurrentGame(std::string currentGame)
 void Ncurses::initScreen(void)
 {
     _w_main = subwin(stdscr, (LINES - 1), (COLS - 1), 0, 0);
-    _w_command = subwin(stdscr, 3, 50, 1, 2);
-    _w_score = subwin(stdscr, 3, 20, 1, 54);
+    _w_score = subwin(stdscr, 3, 20, 1, 2);
 
     box(_w_main, ACS_VLINE, ACS_HLINE);
-    box(_w_command, ACS_VLINE, ACS_HLINE);
     box(_w_score, ACS_VLINE, ACS_HLINE);
 
-    mvwprintw(_w_command, 1, 2, "QUIT: press enter", 0);
     mvwprintw(_w_score, 1, 2, "Score: %d", 0);
     nodelay(_w_main, true);
     timeout(1);
@@ -144,6 +141,12 @@ Keys Ncurses::keyPressed(void)
             break;
         case KEY_RIGHT:
             ret = RIGHT_KEY;
+            break;
+        case 'n':
+            ret = NEXTLIB_KEY;
+            break;
+        case 'p':
+            ret = PREVLIB_KEY;
             break;
         default:
             break;

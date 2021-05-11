@@ -284,6 +284,9 @@ enum Keys Sfml::readKeyInput(sf::Keyboard::Key keyCode)
     case sf::Keyboard::N:
         return NEXTLIB_KEY;
         break;
+    case sf::Keyboard::P:
+        return PREVLIB_KEY;
+        break;
     default:
         return NIL_KEY;
         break;
