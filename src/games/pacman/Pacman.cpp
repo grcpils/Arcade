@@ -8,7 +8,7 @@
 #include "Pacman.hpp"
 
 Pacman::Pacman(void)
-    : _name("pacman"), _lastInput(RIGHT_KEY), _status(RUN)
+    : _name("pacman"), _lastInput(RIGHT_KEY), _status(RUN), _score(0)
 {}
 
 Pacman::~Pacman(void)
@@ -66,7 +66,8 @@ bool Pacman::keyInput(Keys key)
             break;
     }
 
-    if (_mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
+    if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
         _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
@@ -135,7 +136,7 @@ MapMetadata Pacman::getMetaOf(char c)
 
     switch (c) {
         case '.':
-            ret = PATH;
+            ret = PPATH;
             break;
         case '<':
         case '>':

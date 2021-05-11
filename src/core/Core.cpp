@@ -43,25 +43,20 @@ namespace Arcade {
             return (-1);
         _gameLib->init();
         _graphicLib->loadMap(map, _gameLib->getMetaMap());
-        std::thread imanager(&Core::inputManager, this);
-        fprintf(stderr, "Main loop Started.\n");
-        while (_exitStatus != true) {
-            _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
-            _graphicLib->updateScore(_gameLib->getScore());
-        }
-        return (0);
-    }
-
-    void Core::inputManager(void)
-    {
-        Keys input = NIL_KEY;
-
-        fprintf(stderr, "Input Manager Started.\n");
-        while (input != NIL_KEY) {
+        while (input != EXIT_KEY) {
             input = _graphicLib->keyPressed();
             _gameLib->keyInput(input);
+            _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
+            _graphicLib->updateScore(_gameLib->getScore());
+            std::this_thread::sleep_for(std::chrono::milliseconds(75));
+
+            if (input == NEXTLIB_KEY) {
+                _graphicPtr->destroyInstance();
+                _graphicPtr = new DLLoader<IGraphicsModule>("lib/arcade_ncurses.so");
+                _graphicLib = _graphicPtr->getInstance();
+            }
         }
-        _exitStatus = true;
+        return (0);
     }
 
     void Core::usage(void)

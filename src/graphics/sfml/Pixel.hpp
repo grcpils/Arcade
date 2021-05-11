@@ -11,14 +11,11 @@
 namespace Sfml
 {
 
-    class Pixel
+    typedef struct pixel_s
     {
-        public:
-            Pixel(void);
-            ~Pixel(void);
-
-        private:
-    };
+        sf::RectangleShape shape;
+        MapMetadata meta;
+    } pixel_t;
 
 };
 

@@ -15,7 +15,7 @@
 ** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
 **
 */
-typedef enum MapMetadata { NIL, WALL, IWALL, PATH, PLAYER, MONSTER, BONUS } MapMetadata;
+typedef enum MapMetadata { NIL, WALL, IWALL, PATH, PPATH, PLAYER, MONSTER, BONUS } MapMetadata;
 
 /*!
 ** @brief Map Metadata container

@@ -13,7 +13,7 @@
 namespace Sfml
 {
 
-    typedef std::vector<sf::RectangleShape> ShapedMapContainer;
+    typedef std::vector<pixel_t> ShapedMapContainer;
 
     class Sfml : public IGraphicsModule
     {
@@ -33,12 +33,16 @@ namespace Sfml
         private:
             std::string _name;
             std::string _currentGame;
+            sf::Font _defaultFont;
             ShapedMapContainer _ShapeMap;
+            posf_t _shapeRatio;
 
             sf::RenderWindow _window;
             sf::Event _events;
 
             enum Keys readKeyInput(sf::Keyboard::Key keyCode);
             ShapedMapContainer contructShapedMap(MapContainer map, MetaContainer meta);
+            void printShapedMap(void);
+            posf_t getCenterPosition(MapContainer map);
     };
 }

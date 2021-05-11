@@ -40,5 +40,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                             "${LOCAL_CORE_DIR}"
                           )
 
-target_link_libraries(${PROJECT_NAME} pthread)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
