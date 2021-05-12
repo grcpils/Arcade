@@ -15,8 +15,14 @@ typedef enum Keys { UP_KEY,
                     MENU_KEY,
                     EXIT_KEY,
                     NIL_KEY,
+                    ENTER_KEY,
                     NEXTLIB_KEY,
-                    PREVLIB_KEY
+                    PREVLIB_KEY,
+                    PCM_KEY,
+                    NBL_KEY,
+                    NC_KEY,
+                    SF_KEY,
+                    SDL_KEY
                     } Keys;
 
 #endif

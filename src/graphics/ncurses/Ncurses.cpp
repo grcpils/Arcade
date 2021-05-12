@@ -61,12 +61,9 @@ void Ncurses::setCurrentGame(std::string currentGame)
 void Ncurses::initScreen(void)
 {
     _w_main = subwin(stdscr, (LINES - 1), (COLS - 1), 0, 0);
-    _w_score = subwin(stdscr, 3, 20, 1, 2);
-
+    _w_menu = subwin(stdscr, 60, 50, 0, 0);
     box(_w_main, ACS_VLINE, ACS_HLINE);
-    box(_w_score, ACS_VLINE, ACS_HLINE);
-
-    mvwprintw(_w_score, 1, 2, "Score: %d", 0);
+    box(_w_menu, ACS_VLINE, ACS_HLINE);
     nodelay(_w_main, true);
     timeout(1);
     refresh();
@@ -127,8 +124,8 @@ Keys Ncurses::keyPressed(void)
     int ch = getch();
 
     switch (ch) {
-        case 10:
-            ret = EXIT_KEY;
+        case 27:
+            ret = MENU_KEY;
             break;
         case KEY_UP:
             ret = UP_KEY;
@@ -165,6 +162,8 @@ Keys Ncurses::keyPressed(void)
 */
 bool Ncurses::updateScore(int score)
 {
+    _w_score = subwin(stdscr, 3, 20, 1, 2);
+    box(_w_score, ACS_VLINE, ACS_HLINE);
     mvwprintw(_w_score, 1, 2, "Score: %d", score);
 }
 
@@ -183,6 +182,17 @@ pos_t *Ncurses::getSizeOfMap(MapContainer map) const
     size->x = map.size();
     size->y = map.at(0).size();
     return size;
+}
+
+enum Keys Ncurses::viewMenu(LibCollection libs, std::string &playerName)
+{
+
+    mvwprintw(_w_menu, 10, 5, "ARCADE");
+
+    wclear(_w_main);
+    wrefresh(_w_menu);
+    wrefresh(_w_main);
+    return this->keyPressed();
 }
 
 extern "C" {

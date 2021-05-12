@@ -41,6 +41,7 @@ bool Pacman::keyInput(Keys key)
     tmp.x = _s_player->x;
     tmp.y = _s_player->y;
 
+
     if (key == NIL_KEY)
         k = _lastInput;
 
@@ -94,7 +95,7 @@ int Pacman::getScore(void) const
     return _score;
 }
 
-std::vector<std::vector<char>> Pacman::getMap(char *filename)
+MapContainer Pacman::getMap(char *filename)
 {
     std::vector<char> vline;
     FILE *map_file = fopen(filename, "r");
@@ -162,6 +163,12 @@ MapMetadata Pacman::getMetaOf(char c)
     return ret;
 }
 
+/*!
+** @brief Build mapMetaData container
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+**
+*/
 void Pacman::buildMetaData(void)
 {
     std::vector<MapMetadata> meta(_mapSize->y, NIL);
@@ -175,6 +182,13 @@ void Pacman::buildMetaData(void)
     _mapMetaData = metaData;
 }
 
+/*!
+** @brief Get Player position in pos_t
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+**
+** @return pos_t*
+*/
 pos_t *Pacman::getPlayerPos(void)
 {
     pos_t *pos = (pos_t*) malloc(sizeof(pos_t));

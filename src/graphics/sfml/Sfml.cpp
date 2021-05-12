@@ -45,7 +45,9 @@ Sfml::Sfml(void)
 **
 */
 Sfml::~Sfml(void)
-{}
+{
+    _window.close();
+}
 
 /*!
 ** @brief get name of current lib
@@ -133,8 +135,7 @@ ShapedMapContainer Sfml::contructShapedMap(MapContainer map, MetaContainer meta)
     const float yf = _shapeRatio.y;
     posf_t pos = this->getCenterPosition(map);
     const float savey = pos.y;
-    // pos.x = xf;
-    // pos.y = yf;
+
     for (int x = 0 ; x < map.size() ; x++) {
         for (int y = 0 ; y < map.at(x).size() ; y++) {
             switch (meta.at(x).at(y)) {
@@ -241,13 +242,12 @@ enum Keys Sfml::keyPressed(void)
     if (_window.pollEvent(_events)) {
         switch (_events.type) {
         case sf::Event::Closed:
-            _window.close();
             return EXIT_KEY;
             break;
         case sf::Event::KeyPressed:
             return this->readKeyInput(_events.key.code);
         default:
-            return NIL_KEY;
+            return this->keyPressed();
             break;
         }
     }
@@ -278,8 +278,11 @@ enum Keys Sfml::readKeyInput(sf::Keyboard::Key keyCode)
     case sf::Keyboard::Right:
         return RIGHT_KEY;
         break;
+    case sf::Keyboard::Escape:
+        return MENU_KEY;
+        break;
     case sf::Keyboard::Enter:
-        return EXIT_KEY;
+        return ENTER_KEY;
         break;
     case sf::Keyboard::N:
         return NEXTLIB_KEY;
@@ -312,6 +315,189 @@ posf_t Sfml::getCenterPosition(MapContainer map)
     pos.x = (_window.getSize().y / 2) - ((_shapeRatio.x * size.x) / 2);
     pos.y = (_window.getSize().x / 2) - ((_shapeRatio.y * size.y) / 2);
     return pos;
+}
+
+/*!
+** @brief Print and refresh menu before start any game
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @param libs
+**
+** @return enum Keys
+*/
+enum Keys Sfml::viewMenu(LibCollection libs, std::string &playerName)
+{
+    if (_menu.empty())
+        _menu = this->buildMenu(libs);
+    Keys input = NIL_KEY;
+    sf::Text menuHeader;
+    static int select = 2;
+    _window.clear();
+
+    menuHeader.setFont(_defaultFont);
+    menuHeader.setString("ARCADE");
+    menuHeader.setOrigin(menuHeader.getLocalBounds().width/2.f, menuHeader.getLocalBounds().height/2.f);
+    menuHeader.setPosition(sf::Vector2f((_window.getSize().x/2.f) - menuHeader.getLocalBounds().width/2.f, 75.f));
+    menuHeader.setCharacterSize(50);
+    menuHeader.setFillColor(sf::Color::White);
+
+    _window.draw(menuHeader);
+    for (int x = 0 ; x < _menu.size() ; x++) {
+        _window.draw(_menu.at(x).text);
+    }
+
+    input = this->keyPressed();
+    switch (input) {
+        case DOWN_KEY:
+            if ((select + 1) < _menu.size()) {
+                select++;
+                if ((select + 1) < _menu.size() && _menu.at(select).n == 0)
+                    select++;
+            }
+            break;
+        case UP_KEY:
+            if (select > 0 && (select - 1 ) != 0) {
+                select--;
+                if ((select - 1) < _menu.size() && _menu.at(select).n == 0)
+                    select--;
+            }
+            break;
+        case ENTER_KEY:
+            if (strcmp(_menu.at(select).lib.name, "ncurses") == 0)
+                return NC_KEY;
+            if (strcmp(_menu.at(select).lib.name, "sfml") == 0)
+                return SF_KEY;
+            if (strcmp(_menu.at(select).lib.name, "pacman") == 0)
+                return PCM_KEY;
+            if (strcmp(_menu.at(select).lib.name, "nibbler") == 0)
+                return NBL_KEY;
+            if (_menu.at(select).lib.type == PSEUDO) {
+                _menu.at(select).text = this->getNewPlayerName(_menu.at(select).text, playerName);
+                return NIL_KEY;
+            }
+            break;
+        default:
+            for (int x = 0 ; x < _menu.size() ; x++) {
+                if (x != select && _menu.at(x).n != 0) {
+                    _menu.at(x).text.setFillColor(sf::Color::White);
+                }
+            }
+            break;
+    }
+
+    _menu.at(select).text.setFillColor(sf::Color::Magenta);
+    _window.draw(_menu.at(select).text);
+
+    _window.display();
+    return input;
+}
+
+sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
+{
+    sf::String playerInput;
+    sf::Text tips;
+    sf::RectangleShape rec;
+
+    tips.setFont(_defaultFont);
+    tips.setString("spacebar to exit input mode");
+    tips.setOrigin(tips.getLocalBounds().width/2, tips.getLocalBounds().height/2);
+    tips.setPosition(sf::Vector2f((_window.getSize().x - 400.f), 180.f));
+    tips.setCharacterSize(12);
+    tips.setFillColor(sf::Color::Red);
+    rec.setPosition(sf::Vector2f(500.f, 120.f));
+    rec.setSize(sf::Vector2f(500.f, 40.f));
+    rec.setFillColor(sf::Color::Black);
+
+    currentName.setFillColor(sf::Color::Black);
+    _window.draw(currentName);
+    _window.draw(tips);
+    _window.draw(rec);
+    _window.display();
+    currentName.setFillColor(sf::Color::Blue);
+    while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (_window.pollEvent(_events) && _events.type == sf::Event::TextEntered)
+        {
+            if (isalnum(_events.text.unicode) != 0)
+                playerInput += _events.text.unicode;
+            if (_events.text.unicode =='\b') {
+                if (!playerInput.isEmpty()) {
+                    playerInput.erase(playerInput.getSize() - 1, 1);
+                    currentName.setFillColor(sf::Color::Black);
+                    _window.draw(rec);
+                    _window.draw(currentName);
+                    currentName.setFillColor(sf::Color::Blue);
+                }
+            }
+        }
+        currentName.setString(playerInput);
+        _window.draw(currentName);
+        _window.display();
+    }
+    if (playerInput == " ") {
+        currentName.setString("Player");
+        _window.draw(currentName);
+    }
+    _window.display();
+    playerName = std::string(playerInput);
+    return currentName;
+    printf("playername: %s\n", currentName);
+}
+
+/*!
+** @brief Build menu collection with file detected in lib folder
+** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)
+**
+** @param libs
+**
+** @return MenuCollection
+*/
+MenuCollection Sfml::buildMenu(LibCollection libs)
+{
+    MenuCollection menuCol;
+    text_t newEntry;
+    float space = 100.f;
+
+    newEntry.text = this->newText(libs.at(libs.size() - 1).name, (space += 50.f), sf::Color::Blue);
+    newEntry.lib = libs.at(libs.size() - 1);
+    newEntry.n = 3;
+    menuCol.push_back(newEntry);
+    newEntry.text = this->newText("Games:", (space += 50.f), sf::Color::Green);
+    newEntry.n = 0;
+    menuCol.push_back(newEntry);
+    for (int x = 0 ; x < libs.size() ; x++) {
+        if (libs.at(x).type == GAME) {
+            newEntry.lib = libs.at(x);
+            newEntry.n = 1;
+            newEntry.text = newText(libs.at(x).name, (space += 40.f));
+            menuCol.push_back(newEntry);
+        }
+    }
+
+    newEntry.text = this->newText("Graphics:", (space += 60.f), sf::Color::Green);
+    newEntry.n = 0;
+    menuCol.push_back(newEntry);
+    for (int x = 0 ; x < libs.size() ; x++) {
+        if (libs.at(x).type == GRAPHIC) {
+            newEntry.lib = libs.at(x);
+            newEntry.n = 2;
+            newEntry.text = newText(libs.at(x).name, (space += 40.f));
+            menuCol.push_back(newEntry);
+        }
+    }
+    return menuCol;
+}
+
+sf::Text Sfml::newText(std::string text, float height, sf::Color color)
+{
+    sf::Text newT;
+
+    newT.setFont(_defaultFont);
+    newT.setString(text);
+    newT.setOrigin(newT.getLocalBounds().width/2, newT.getLocalBounds().height/2);
+    newT.setPosition(sf::Vector2f((_window.getSize().x/2.f), height));
+    newT.setCharacterSize(24);
+    newT.setFillColor(color);
+    return newT;
 }
 
 } /* end of Sfml namespace */

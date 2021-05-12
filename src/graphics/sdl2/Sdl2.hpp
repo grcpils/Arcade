@@ -20,6 +20,8 @@ class Sdl2 : public IGraphicsModule
         void refreshMap(MapContainer map, MetaContainer meta);
         enum Keys keyPressed(void);
 
+        enum Keys viewMenu(LibCollection libs, std::string &playerName);
+
         void setCurrentGame(std::string currentGame);
 
     private:

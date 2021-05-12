@@ -28,6 +28,9 @@ void Sdl2::refreshMap(MapContainer map, MetaContainer meta)
 enum Keys Sdl2::keyPressed(void)
 {}
 
+enum Keys Sdl2::viewMenu(LibCollection libs, std::string &playerName)
+{}
+
 
 extern "C" {
 

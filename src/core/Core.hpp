@@ -19,16 +19,23 @@ namespace Arcade {
             ~Core(void);
 
             void usage(void);
-            int gameloop(void);
+            int gameloop(const char *filemap);
+            int menu(void);
 
         private:
             DLLoader<IGraphicsModule> *_graphicPtr;
             DLLoader<IGamesModule> *_gamePtr;
             IGraphicsModule *_graphicLib;
             IGamesModule *_gameLib;
-            bool _exitStatus;
+            LibCollection _libraries;
+            std::string _playerName;
+            int _score;
 
             void inputManager(void);
+            void loadLibsFromFolder(void);
+            int startGame(const char *gameLib, const char *gameMap);
+            int changeGraphics(const char *graphicLib);
+            int updateScoreBoard(void);
     };
 
 }

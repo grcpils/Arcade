@@ -27,6 +27,8 @@ class Ncurses : public IGraphicsModule
         Keys keyPressed(void);
         void refreshMap(MapContainer map, MetaContainer meta);
 
+        enum Keys viewMenu(LibCollection libs, std::string &playerName);
+
         void setCurrentGame(std::string currentGame);
 
     private:
@@ -34,6 +36,7 @@ class Ncurses : public IGraphicsModule
         std::string _currentGame;
         WINDOW *_w_main;
         WINDOW *_w_score;
+        WINDOW *_w_menu;
 
         pos_t *getSizeOfMap(MapContainer map) const;
         void initScreen(void);

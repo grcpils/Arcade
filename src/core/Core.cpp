@@ -12,50 +12,131 @@ namespace Arcade {
 
     Core::Core(int ac, char **av)
     :   _graphicLib(NULL), _gameLib(NULL), _graphicPtr(NULL), _gamePtr(NULL),
-        _exitStatus(false)
+        _playerName("Player"), _score(0)
     {
         Log("New Core", 0);
         if (ac < 2) {
             this->usage();
             exit(84);
         }
+
         _graphicPtr = new DLLoader<IGraphicsModule>(av[1]);
         _graphicLib = _graphicPtr->getInstance();
 
-        _gamePtr = new DLLoader<IGamesModule>("lib/arcade_pacman.so");
-        _gameLib = _gamePtr->getInstance();
+        this->menu();
     }
 
     Core::~Core(void)
     {
         _graphicPtr->destroyInstance();
-        _gamePtr->destroyInstance();
+        if (_gamePtr != NULL)
+            _gamePtr->destroyInstance();
         delete _gamePtr;
         delete _graphicPtr;
         Log("Core destroyed", 0);
     }
 
-    int Core::gameloop(void)
+    int Core::menu(void)
     {
-        std::vector<std::vector<char>> map = _gameLib->getMap("mapping/map.pcm");
+        Keys input = NIL_KEY;
+
+        this->loadLibsFromFolder();
+        while (input != EXIT_KEY) {
+            input = _graphicLib->viewMenu(_libraries, _playerName);
+            std::this_thread::sleep_for(std::chrono::milliseconds(75));
+            switch (input) {
+                case PCM_KEY:
+                    if (startGame("lib/arcade_pacman.so", "mapping/map.pcm") != 0)
+                        return (-1);
+                    break;
+                case NBL_KEY:
+                    if (startGame("lib/arcade_nibbler.so", "mapping/map.nbl") != 0)
+                        return (-1);
+                    break;
+                case NC_KEY:
+                    changeGraphics("lib/arcade_ncurses.so");
+                    break;
+                case SF_KEY:
+                    changeGraphics("lib/arcade_sfml.so");
+                    break;
+                default:
+                    break;
+            }
+        }
+        return (0);
+    }
+
+    int Core::gameloop(const  char *filemap)
+    {
+        MapContainer map = _gameLib->getMap((char*) filemap);
         Keys input = NIL_KEY;
         if (map.empty() == 1)
             return (-1);
         _gameLib->init();
         _graphicLib->loadMap(map, _gameLib->getMetaMap());
-        while (input != EXIT_KEY) {
+        while (input != MENU_KEY) {
             input = _graphicLib->keyPressed();
             _gameLib->keyInput(input);
             _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
-            _graphicLib->updateScore(_gameLib->getScore());
+            _score = _gameLib->getScore();
+            _graphicLib->updateScore(_score);
             std::this_thread::sleep_for(std::chrono::milliseconds(75));
-
-            if (input == NEXTLIB_KEY) {
-                _graphicPtr->destroyInstance();
-                _graphicPtr = new DLLoader<IGraphicsModule>("lib/arcade_ncurses.so");
-                _graphicLib = _graphicPtr->getInstance();
+            if (input == EXIT_KEY) {
+                return (-1);
             }
         }
+        return (0);
+    }
+
+    void Core::loadLibsFromFolder(void)
+    {
+        DIR *dir = opendir("lib/");
+        char path[255] = "lib/";
+        struct dirent *dirs;
+        lib_t  newlib;
+        int x;
+
+        if (dir == NULL) {
+            fprintf(stderr, "Can't open folder '%s'.", "lib/");
+            return;
+        }
+        while ((dirs = readdir(dir)) != NULL) {
+            if (dirs->d_type != DT_DIR && dirs->d_name[0] != '.') {
+                newlib.name = strrchr(strdup(dirs->d_name), '_') + 1;
+                for (x = 0 ; newlib.name[x] != '.' ; x++);
+                newlib.name[x] = '\0';
+                newlib.origin_name = strcat(path, dirs->d_name);
+                if (strcmp(newlib.name, "pacman") == 0 || strcmp(newlib.name, "nibbler") == 0)
+                    newlib.type = GAME;
+                else
+                    newlib.type = GRAPHIC;
+                if (strcmp(newlib.name, "sdl2") == 0)
+                    newlib.type = UNKNOWN;
+                _libraries.push_back(newlib);
+            }
+        }
+        closedir(dir);
+
+        newlib.name = strdup("Player");
+        newlib.type = PSEUDO;
+        _libraries.push_back(newlib);
+    }
+
+    int Core::startGame(const char *gameLib, const char *gameMap)
+    {
+        if (_gamePtr != NULL)
+            _gamePtr->destroyInstance();
+        _gamePtr = new DLLoader<IGamesModule>(gameLib);
+        _gameLib = _gamePtr->getInstance();
+        return this->gameloop(gameMap);
+    }
+
+    int Core::changeGraphics(const char *graphicLib)
+    {
+        if (_graphicPtr != NULL)
+            _graphicPtr->destroyInstance();
+        _graphicPtr = new DLLoader<IGraphicsModule>(graphicLib);
+        _graphicLib = _graphicPtr->getInstance();
         return (0);
     }
 

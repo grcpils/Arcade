@@ -13,10 +13,12 @@
 #include <string>
 #include <iterator>
 #include <vector>
+#include <string.h>
 #include "Keys.hpp"
 #include "Position.hpp"
 #include "Map.hpp"
 #include "Metadata.hpp"
+#include "Libraries.hpp"
 
 class IGraphicsModule
 {
@@ -29,6 +31,8 @@ class IGraphicsModule
         virtual void refreshMap(MapContainer map, MetaContainer meta) = 0;
         virtual bool updateScore(int score) = 0;
         virtual enum Keys keyPressed(void) = 0;
+
+        virtual enum Keys viewMenu(LibCollection libs, std::string &playerName) = 0;
 
         virtual void setCurrentGame(std::string currentGame) = 0;
 

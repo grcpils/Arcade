@@ -6,6 +6,7 @@
 */
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "IGraphicsModule.hpp"
 #include "Pixel.hpp"
 
@@ -13,7 +14,15 @@
 namespace Sfml
 {
 
+    typedef struct text_s
+    {
+        sf::Text text;
+        lib_t lib;
+        int n;
+    } text_t;
+
     typedef std::vector<pixel_t> ShapedMapContainer;
+    typedef std::vector<text_t> MenuCollection;
 
     class Sfml : public IGraphicsModule
     {
@@ -28,6 +37,8 @@ namespace Sfml
             void refreshMap(MapContainer map, MetaContainer meta);
             enum Keys keyPressed(void);
 
+            enum Keys viewMenu(LibCollection libs, std::string &playerName);
+
             void setCurrentGame(std::string currentGame);
 
         private:
@@ -36,6 +47,7 @@ namespace Sfml
             sf::Font _defaultFont;
             ShapedMapContainer _ShapeMap;
             posf_t _shapeRatio;
+            MenuCollection _menu;
 
             sf::RenderWindow _window;
             sf::Event _events;
@@ -44,5 +56,9 @@ namespace Sfml
             ShapedMapContainer contructShapedMap(MapContainer map, MetaContainer meta);
             void printShapedMap(void);
             posf_t getCenterPosition(MapContainer map);
+
+            MenuCollection buildMenu(LibCollection libs);
+            sf::Text newText(std::string text, float height, sf::Color color = sf::Color::White);
+            sf::Text getNewPlayerName(sf::Text currentName, std::string &playerName);
     };
 }

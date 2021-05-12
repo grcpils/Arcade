@@ -11,9 +11,12 @@
 #define DEBUG true
 
 #include <iostream>
+#include <dirent.h>
+#include <string>
 #include "IGamesModule.hpp"
 #include "IGraphicsModule.hpp"
 #include "DLLoader.hpp"
 #include "Logger.hpp"
+#include "Libraries.hpp"
 
 #endif
