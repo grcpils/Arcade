@@ -32,6 +32,7 @@ void Pacman::init(void)
 {
     _s_player = this->getPlayerPos();
     _s_monsters = this->getMonstersPos();
+    _old_s_monsters = this->getMonstersPos();
 }
 
 bool Pacman::keyInput(Keys key)
@@ -42,7 +43,7 @@ bool Pacman::keyInput(Keys key)
     static int bonusTime = 0;
 
     if (_bonus == 1) {
-        if (bonusTime == 35) {
+        if (bonusTime == 50) {
             _bonus = 0;
             bonusTime = 0;
         } else {
@@ -89,13 +90,13 @@ bool Pacman::keyInput(Keys key)
     if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
-        _mapMetaData.at(tmp.x).at(tmp.y) == KMONSTER||
+        _mapMetaData.at(tmp.x).at(tmp.y) == KMONSTER ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
             if (_map.at(tmp.x).at(tmp.y) == '.')
                 _score += 10;
             if (_map.at(tmp.x).at(tmp.y) == '*') {
-                _bonus = 1;
                 _score += 100;
+                _bonus = 1;
             }
 
             _mapMetaData.at(_s_player->x).at(_s_player->y) = PATH;
@@ -119,21 +120,19 @@ void Pacman::moveMonsters(void)
         monster = _s_monsters.at(m);
         tmp = monster;
 
-        tmp.y++; // TODO: Update monster personnality
+        tmp = monsterPersonnalityMove(m);
 
-        if (_mapMetaData.at(tmp.x).at(tmp.y) == WALL ||
-            _mapMetaData.at(tmp.x).at(tmp.y) == IWALL) {
-            tmp.y--;
-            tmp.x--;
+        if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER && _bonus == 0)
+            _status = LOOSE;
+        else if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER && _bonus == 1) {
+            _mapMetaData.at(monster.x).at(monster.y) = PATH;
+            _s_monsters = this->getMonstersPos();
         }
 
         if (_monster_old.empty() || _monster_old.size() <= m)
             _monster_old.push_back(_mapMetaData.at(tmp.x).at(tmp.y));
         else
-            _monster_old.push_back(_mapMetaData.at(tmp.x).at(tmp.y));
-
-        if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER)
-            _status = LOOSE;
+            _monster_old.at(m) = _mapMetaData.at(tmp.x).at(tmp.y);
 
         if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
             _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
@@ -156,6 +155,97 @@ void Pacman::moveMonsters(void)
     }
 
     _s_monsters = this->getMonstersPos();
+}
+
+pos_t Pacman::monsterPersonnalityMove(int monsterNumber)
+{
+    pos_t currentPosition = _s_monsters.at(monsterNumber);
+    pos_t next;
+    int random = rand() % 2 + 1;
+
+    switch (random) {
+    case 1:
+        next = this->m_moveRight(currentPosition);
+        if (this->posIsEqual(next, _old_s_monsters.at(monsterNumber)))
+            next = this->m_moveLeft(currentPosition);
+        if (this->positionWalkable(next))
+            _old_s_monsters.at(monsterNumber) = next;
+        break;
+    case 2:
+        next = this->m_moveLeft(currentPosition);
+        if (this->posIsEqual(next, _old_s_monsters.at(monsterNumber)))
+            next = this->m_moveRight(currentPosition);
+        if (this->positionWalkable(next))
+            _old_s_monsters.at(monsterNumber) = next;
+        break;
+    case 3:
+        next = this->m_moveUp(currentPosition);
+        if (this->posIsEqual(next, _old_s_monsters.at(monsterNumber)))
+            next = this->m_moveDown(currentPosition);
+        if (this->positionWalkable(next))
+            _old_s_monsters.at(monsterNumber) = next;
+        break;
+    case 4:
+        next = this->m_moveDown(currentPosition);
+        if (this->posIsEqual(next, _old_s_monsters.at(monsterNumber)))
+            next = this->m_moveUp(currentPosition);
+        if (this->positionWalkable(next))
+            _old_s_monsters.at(monsterNumber) = next;
+        break;
+    default:
+        break;
+    }
+
+    fprintf(stderr, "Monster: %d\nNext: %d %d\nOld: %d %d\n\n", monsterNumber,
+            next.x, next.y, _old_s_monsters.at(monsterNumber).x, _old_s_monsters.at(monsterNumber).y);
+
+    if (this->positionWalkable(next))
+        return next;
+    else
+        return this->monsterPersonnalityMove(monsterNumber);
+}
+
+bool Pacman::posIsEqual(pos_t a, pos_t b)
+{
+    if (a.x == b.x && a.y == b.y)
+        return true;
+    return false;
+}
+
+pos_t Pacman::m_moveUp(pos_t origin)
+{
+    pos_t next = origin;
+    next.x--;
+    return next;
+}
+
+pos_t Pacman::m_moveDown(pos_t origin)
+{
+    pos_t next = origin;
+    next.x++;
+    return next;
+}
+
+pos_t Pacman::m_moveLeft(pos_t origin)
+{
+    pos_t next = origin;
+    next.y--;
+    return next;
+}
+
+pos_t Pacman::m_moveRight(pos_t origin)
+{
+    pos_t next = origin;
+    next.y++;
+    return next;
+}
+
+bool Pacman::positionWalkable(pos_t coordonate)
+{
+    if (_mapMetaData.at(coordonate.x).at(coordonate.y) == WALL ||
+        _mapMetaData.at(coordonate.x).at(coordonate.y) == IWALL)
+        return false;
+    return true;
 }
 
 int Pacman::getScore(void) const

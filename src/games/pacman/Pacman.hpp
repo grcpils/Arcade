@@ -15,7 +15,7 @@
 class Pacman : public IGamesModule
 {
     public:
-        Pacman(void); 
+        Pacman(void);
         ~Pacman(void);
 
         virtual std::string getName(void) const;
@@ -36,6 +36,7 @@ class Pacman : public IGamesModule
         MetaContainer _mapMetaData;
         pos_t* _s_player;
         std::vector<pos_t> _s_monsters;
+        std::vector<pos_t> _old_s_monsters;
         std::vector<MapMetadata> _monster_old;
         int _bonus;
         Keys _lastInput;
@@ -50,6 +51,13 @@ class Pacman : public IGamesModule
         std::vector<pos_t> getMonstersPos(void);
 
         void moveMonsters(void);
+        pos_t monsterPersonnalityMove(int monsterNumber);
+        pos_t m_moveUp(pos_t origin);
+        pos_t m_moveDown(pos_t origin);
+        pos_t m_moveLeft(pos_t origin);
+        pos_t m_moveRight(pos_t origin);
+        bool posIsEqual(pos_t a, pos_t b);
+        bool positionWalkable(pos_t coordonate);
 };
 
 #endif

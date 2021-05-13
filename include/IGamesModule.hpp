@@ -12,6 +12,9 @@
 #include <string>
 #include <iterator>
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "Keys.hpp"
 #include "Position.hpp"
 #include "Map.hpp"
