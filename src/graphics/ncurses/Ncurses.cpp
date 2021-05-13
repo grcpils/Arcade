@@ -121,6 +121,10 @@ void Ncurses::loadMap(MapContainer map, MetaContainer meta)
                 wattron(_w_main, COLOR_PAIR(GAME_MONSTER));
                 wprintw(_w_main, "M");
                 break;
+            case KMONSTER:
+                wattron(_w_main, COLOR_PAIR(GAME_BONUS));
+                wprintw(_w_main, "M");
+                break;
             case BONUS:
                 wattron(_w_main, COLOR_PAIR(GAME_BONUS));
                 wprintw(_w_main, "*");

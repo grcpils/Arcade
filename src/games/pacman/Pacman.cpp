@@ -8,7 +8,8 @@
 #include "Pacman.hpp"
 
 Pacman::Pacman(void)
-    : _name("pacman"), _lastInput(RIGHT_KEY), _status(RUN), _score(0)
+    : _name("pacman"), _lastInput(RIGHT_KEY), _status(RUN), _score(0),
+      _bonus(0)
 {}
 
 Pacman::~Pacman(void)
@@ -38,6 +39,16 @@ bool Pacman::keyInput(Keys key)
     Keys k = key;
     pos_t tmp;
     char playerType = '<';
+    static int bonusTime = 0;
+
+    if (_bonus == 1) {
+        if (bonusTime == 35) {
+            _bonus = 0;
+            bonusTime = 0;
+        } else {
+            bonusTime++;
+        }
+    }
 
     tmp.x = _s_player->x;
     tmp.y = _s_player->y;
@@ -72,15 +83,20 @@ bool Pacman::keyInput(Keys key)
 
     this->moveMonsters();
 
+    if (_mapMetaData.at(tmp.x).at(tmp.y) == MONSTER && _bonus == 0)
+        _status = LOOSE;
+
     if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
-        _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
         _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == KMONSTER||
         _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
             if (_map.at(tmp.x).at(tmp.y) == '.')
                 _score += 10;
-            if (_map.at(tmp.x).at(tmp.y) == '*')
+            if (_map.at(tmp.x).at(tmp.y) == '*') {
+                _bonus = 1;
                 _score += 100;
+            }
 
             _mapMetaData.at(_s_player->x).at(_s_player->y) = PATH;
             _s_player->x = tmp.x;
@@ -104,6 +120,7 @@ void Pacman::moveMonsters(void)
         tmp = monster;
 
         tmp.y++; // TODO: Update monster personnality
+
         if (_mapMetaData.at(tmp.x).at(tmp.y) == WALL ||
             _mapMetaData.at(tmp.x).at(tmp.y) == IWALL) {
             tmp.y--;
@@ -121,12 +138,19 @@ void Pacman::moveMonsters(void)
         if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
             _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
             _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
+            _mapMetaData.at(tmp.x).at(tmp.y) == KMONSTER ||
             _mapMetaData.at(tmp.x).at(tmp.y) == BONUS) {
 
             _mapMetaData.at(monster.x).at(monster.y) = _monster_old.at(m);
             monster.x = tmp.x;
             monster.y = tmp.y;
-            _mapMetaData.at(monster.x).at(monster.y) = MONSTER;
+            if (_bonus == 1) {
+                _mapMetaData.at(monster.x).at(monster.y) = KMONSTER;
+                if (_mapMetaData.at(monster.x).at(monster.y) == PLAYER)
+                    _mapMetaData.at(monster.x).at(monster.y) = PATH;
+            } else {
+                _mapMetaData.at(monster.x).at(monster.y) = MONSTER;
+            }
         }
 
     }
@@ -255,7 +279,7 @@ std::vector<pos_t> Pacman::getMonstersPos(void)
 
     for (int x = 0 ; x < _mapMetaData.size() ; x++) {
         for (int y = 0 ; y < _mapMetaData.at(x).size() ; y++) {
-            if (_mapMetaData.at(x).at(y) == MONSTER) {
+            if (_mapMetaData.at(x).at(y) == MONSTER || _mapMetaData.at(x).at(y) == KMONSTER) {
                 pos.x = x;
                 pos.y = y;
                 positions.push_back(pos);
