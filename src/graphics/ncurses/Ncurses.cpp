@@ -300,7 +300,7 @@ char *Ncurses::getNewPlayerName(char *currentName, std::string &playerName)
 {
     char input[255];
     wmove(_w_menu, 4, 5);
-    mvwprintw(_w_menu, 4, 5, "       ");
+    mvwprintw(_w_menu, 4, 5, BLANK_INPUT);
     wmove(_w_menu, 4, 5);
     wgetstr(_w_menu, input);
     wrefresh(_w_menu);

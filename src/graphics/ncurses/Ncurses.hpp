@@ -15,6 +15,8 @@
 #include <map>
 #include "IGraphicsModule.hpp"
 
+#define BLANK_INPUT "       "
+
 #define MENU_HEADER 101
 #define MENU_SELECT 102
 
