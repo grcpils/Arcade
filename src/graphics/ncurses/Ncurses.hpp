@@ -51,6 +51,7 @@ namespace Ncurses
             bool updateScore(int score);
             Keys keyPressed(void);
             void refreshMap(MapContainer map, MetaContainer meta);
+            void endGame(std::string text);
 
             enum Keys viewMenu(LibCollection libs, std::string &playerName);
 

@@ -38,6 +38,7 @@ namespace Sfml
             enum Keys keyPressed(void);
 
             enum Keys viewMenu(LibCollection libs, std::string &playerName);
+            void endGame(std::string text);
 
             void setCurrentGame(std::string currentGame);
 

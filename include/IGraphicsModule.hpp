@@ -32,6 +32,8 @@ class IGraphicsModule
         virtual bool updateScore(int score) = 0;
         virtual enum Keys keyPressed(void) = 0;
 
+        virtual void endGame(std::string text) = 0;
+
         virtual enum Keys viewMenu(LibCollection libs, std::string &playerName) = 0;
 
         virtual void setCurrentGame(std::string currentGame) = 0;

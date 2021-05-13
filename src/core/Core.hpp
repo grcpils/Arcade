@@ -21,6 +21,7 @@ namespace Arcade {
             void usage(void);
             int gameloop(const char *filemap);
             int menu(void);
+            int checkGameStatus(void);
 
         private:
             DLLoader<IGraphicsModule> *_graphicPtr;

@@ -41,6 +41,8 @@ bool Pacman::keyInput(Keys key)
     tmp.x = _s_player->x;
     tmp.y = _s_player->y;
 
+    if (_score == 3170)
+        _status = WIN;
 
     if (key == NIL_KEY)
         k = _lastInput;

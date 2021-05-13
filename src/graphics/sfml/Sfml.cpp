@@ -317,6 +317,9 @@ posf_t Sfml::getCenterPosition(MapContainer map)
     return pos;
 }
 
+void Sfml::endGame(std::string text)
+{}
+
 /*!
 ** @brief Print and refresh menu before start any game
 ** @author GOUEREC Pierrick (pierrick.gouerec@epitech.eu)

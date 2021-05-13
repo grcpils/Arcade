@@ -104,6 +104,7 @@ void Ncurses::loadMap(MapContainer map, MetaContainer meta)
     pos_t *size = this->getSizeOfMap(map);
     int h = (LINES / 2) - (size->x / 2);
     int w = (COLS / 2) - (size->y / 2);
+    wclear(_w_menu);
 
     for (int x = 0 ; x < map.size() ; x++) {
         for (int y = 0 ; y < map.at(x).size() ; y++) {
@@ -357,6 +358,21 @@ int Ncurses::printMenu(LibCollection libs, int select)
         p++;
     }
     return (0);
+}
+
+void Ncurses::endGame(std::string text)
+{
+    int h = (LINES / 2) - 1;
+    int w = (COLS / 2) - (text.size() / 2);
+    std::string tips = "Press escape to return at menu";
+
+    wclear(_w_main);
+    wattron(_w_main, A_BOLD);
+    mvwprintw(_w_main, h, w, text.c_str());
+    wattroff(_w_main, A_BOLD);
+    w = (COLS / 2) - (tips.size() / 2);
+    mvwprintw(_w_main, h+1, w, tips.c_str());
+    wrefresh(_w_main);
 }
 
 } /* end namespace */

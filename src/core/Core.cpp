@@ -86,6 +86,8 @@ namespace Arcade {
             _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
             _score = _gameLib->getScore();
             _graphicLib->updateScore(_score);
+            if (this->checkGameStatus() != 0)
+                return (0);
             std::this_thread::sleep_for(std::chrono::milliseconds(75));
             if (input == EXIT_KEY) {
                 return (-1);
@@ -97,6 +99,27 @@ namespace Arcade {
                 changeGraphics("lib/arcade_sfml.so");
             }
 
+        }
+        return (0);
+    }
+
+    int Core::checkGameStatus(void)
+    {
+        Keys input;
+
+        if (_gameLib->getStatus() == WIN) {
+            _graphicLib->endGame("You Win !");
+            while (input != MENU_KEY) {
+                input = _graphicLib->keyPressed();
+            };
+            return (-1);
+        }
+        if (_gameLib->getStatus() == LOOSE) {
+            _graphicLib->endGame("Game Over :(");
+            while (input != MENU_KEY) {
+                input = _graphicLib->keyPressed();
+            };
+            return (-1);
         }
         return (0);
     }
