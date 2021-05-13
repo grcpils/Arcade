@@ -248,9 +248,9 @@ std::vector<pos_t> Pacman::getMonstersPos(void)
     std::vector<pos_t> positions;
     pos_t pos;
 
-    for (int x = 0 ; x < _map.size() ; x++) {
-        for (int y = 0 ; y < _map.at(x).size() ; y++) {
-            if (_map.at(x).at(y) == 'M') {
+    for (int x = 0 ; x < _mapMetaData.size() ; x++) {
+        for (int y = 0 ; y < _mapMetaData.at(x).size() ; y++) {
+            if (_mapMetaData.at(x).at(y) == MONSTER) {
                 pos.x = x;
                 pos.y = y;
                 positions.push_back(pos);
