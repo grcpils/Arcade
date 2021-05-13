@@ -103,12 +103,17 @@ void Pacman::moveMonsters(void)
         monster = _s_monsters.at(m);
         tmp = monster;
 
+        tmp.y++; // TODO: Update monster personnality
+        if (_mapMetaData.at(tmp.x).at(tmp.y) == WALL ||
+            _mapMetaData.at(tmp.x).at(tmp.y) == IWALL) {
+            tmp.y--;
+            tmp.x--;
+        }
+
         if (_monster_old.empty() || _monster_old.size() <= m)
-            _monster_old.push_back(PPATH);
+            _monster_old.push_back(_mapMetaData.at(tmp.x).at(tmp.y));
         else
             _monster_old.push_back(_mapMetaData.at(tmp.x).at(tmp.y));
-
-        tmp.y++;
 
         if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER)
             _status = LOOSE;
