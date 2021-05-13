@@ -114,29 +114,35 @@ void Ncurses::loadMap(MapContainer map, MetaContainer meta)
             switch (meta.at(x).at(y)) {
             case PLAYER:
                 wattron(_w_main, COLOR_PAIR(GAME_PLAYER));
+                wprintw(_w_main, "%c", map.at(x).at(y));
                 break;
             case MONSTER:
                 wattron(_w_main, COLOR_PAIR(GAME_MONSTER));
+                wprintw(_w_main, "M");
                 break;
             case BONUS:
                 wattron(_w_main, COLOR_PAIR(GAME_BONUS));
+                wprintw(_w_main, "*");
                 break;
             case PATH:
                 wattron(_w_main, COLOR_PAIR(GAME_PATH));
+                wprintw(_w_main, " ");
                 break;
             case PPATH:
                 wattron(_w_main, COLOR_PAIR(GAME_PPATH));
+                wprintw(_w_main, ".");
                 break;
             case IWALL:
                 wattron(_w_main, COLOR_PAIR(GAME_IWALL));
+                wprintw(_w_main, " ");
                 break;
             case WALL:
                 wattron(_w_main, COLOR_PAIR(GAME_WALL));
+                wprintw(_w_main, "#");
                 break;
             default:
                 break;
             }
-            wprintw(_w_main, "%c", map.at(x).at(y));
             wattroff(_w_main, COLOR_PAIR(GAME_PLAYER));
             wattroff(_w_main, COLOR_PAIR(GAME_MONSTER));
             wattroff(_w_main, COLOR_PAIR(GAME_BONUS));

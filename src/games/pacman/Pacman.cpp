@@ -82,7 +82,6 @@ bool Pacman::keyInput(Keys key)
             if (_map.at(tmp.x).at(tmp.y) == '*')
                 _score += 100;
 
-            _map.at(_s_player->x).at(_s_player->y) = ' ';
             _mapMetaData.at(_s_player->x).at(_s_player->y) = PATH;
             _s_player->x = tmp.x;
             _s_player->y = tmp.y;
@@ -104,6 +103,11 @@ void Pacman::moveMonsters(void)
         monster = _s_monsters.at(m);
         tmp = monster;
 
+        if (_monster_old.empty() || _monster_old.size() <= m)
+            _monster_old.push_back(PPATH);
+        else
+            _monster_old.push_back(_mapMetaData.at(tmp.x).at(tmp.y));
+
         tmp.y++;
 
         if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER)
@@ -114,11 +118,9 @@ void Pacman::moveMonsters(void)
             _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
             _mapMetaData.at(tmp.x).at(tmp.y) == BONUS) {
 
-            _map.at(monster.x).at(monster.y) = ' ';
-            _mapMetaData.at(monster.x).at(monster.y) = PATH;
+            _mapMetaData.at(monster.x).at(monster.y) = _monster_old.at(m);
             monster.x = tmp.x;
             monster.y = tmp.y;
-            _map.at(monster.x).at(monster.y) = 'M';
             _mapMetaData.at(monster.x).at(monster.y) = MONSTER;
         }
 
