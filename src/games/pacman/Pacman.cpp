@@ -30,6 +30,7 @@ enum Status Pacman::getStatus(void) const
 void Pacman::init(void)
 {
     _s_player = this->getPlayerPos();
+    _s_monsters = this->getMonstersPos();
 }
 
 bool Pacman::keyInput(Keys key)
@@ -69,6 +70,8 @@ bool Pacman::keyInput(Keys key)
             break;
     }
 
+    this->moveMonsters();
+
     if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
         _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
@@ -90,6 +93,38 @@ bool Pacman::keyInput(Keys key)
             return true;
     }
     return false;
+}
+
+void Pacman::moveMonsters(void)
+{
+    pos_t monster;
+    pos_t tmp;
+
+    for (int m = 0 ; m < _s_monsters.size() ; m++) {
+        monster = _s_monsters.at(m);
+        tmp = monster;
+
+        tmp.y++;
+
+        if (_mapMetaData.at(tmp.x).at(tmp.y) == PLAYER)
+            _status = LOOSE;
+
+        if (_mapMetaData.at(tmp.x).at(tmp.y) == PPATH ||
+            _mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
+            _mapMetaData.at(tmp.x).at(tmp.y) == MONSTER ||
+            _mapMetaData.at(tmp.x).at(tmp.y) == BONUS) {
+
+            _map.at(monster.x).at(monster.y) = ' ';
+            _mapMetaData.at(monster.x).at(monster.y) = PATH;
+            monster.x = tmp.x;
+            monster.y = tmp.y;
+            _map.at(monster.x).at(monster.y) = 'M';
+            _mapMetaData.at(monster.x).at(monster.y) = MONSTER;
+        }
+
+    }
+
+    _s_monsters = this->getMonstersPos();
 }
 
 int Pacman::getScore(void) const
@@ -204,6 +239,23 @@ pos_t *Pacman::getPlayerPos(void)
         }
     }
     return pos;
+}
+
+std::vector<pos_t> Pacman::getMonstersPos(void)
+{
+    std::vector<pos_t> positions;
+    pos_t pos;
+
+    for (int x = 0 ; x < _map.size() ; x++) {
+        for (int y = 0 ; y < _map.at(x).size() ; y++) {
+            if (_map.at(x).at(y) == 'M') {
+                pos.x = x;
+                pos.y = y;
+                positions.push_back(pos);
+            }
+        }
+    }
+    return positions;
 }
 
 /*
