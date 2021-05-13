@@ -57,7 +57,7 @@ namespace Sfml
             void printShapedMap(void);
             posf_t getCenterPosition(MapContainer map);
 
-            MenuCollection buildMenu(LibCollection libs);
+            MenuCollection buildMenu(LibCollection libs, std::string playerName);
             sf::Text newText(std::string text, float height, sf::Color color = sf::Color::White);
             sf::Text getNewPlayerName(sf::Text currentName, std::string &playerName);
     };

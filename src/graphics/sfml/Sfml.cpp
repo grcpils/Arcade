@@ -164,14 +164,14 @@ ShapedMapContainer Sfml::contructShapedMap(MapContainer map, MetaContainer meta)
                     pixel.meta = BONUS;
                     pixel.shape.setPosition(sf::Vector2f(pos.y, pos.x + 10.f));
                     pixel.shape.setSize(sf::Vector2f(yf, xf - 20.f));
-                    pixel.shape.setFillColor(sf::Color(255, 0, 255));
+                    pixel.shape.setFillColor(sf::Color(255, 0, 0));
                     _ShapeMap.push_back(pixel);
                     break;
                 case MONSTER:
                     pixel.meta = MONSTER;
                     pixel.shape.setPosition(sf::Vector2f(pos.y - 5.f, pos.x + 5.f));
                     pixel.shape.setSize(sf::Vector2f(yf + 10.f, xf - 10.f));
-                    pixel.shape.setFillColor(sf::Color(0, 200, 255));
+                    pixel.shape.setFillColor(sf::Color(0, 255, 255));
                     _ShapeMap.push_back(pixel);
                     break;
                 case PATH:
@@ -185,7 +185,7 @@ ShapedMapContainer Sfml::contructShapedMap(MapContainer map, MetaContainer meta)
                     pixel.meta = PPATH;
                     pixel.shape.setPosition(sf::Vector2f(pos.y + 2.5f, pos.x + 12.5f));
                     pixel.shape.setSize(sf::Vector2f(yf - 5.f, xf - 25.f));
-                    pixel.shape.setFillColor(sf::Color(255, 150, 0));
+                    pixel.shape.setFillColor(sf::Color(255, 225, 0));
                     _ShapeMap.push_back(pixel);
                     break;
                 default:
@@ -242,7 +242,7 @@ enum Keys Sfml::keyPressed(void)
     if (_window.pollEvent(_events)) {
         switch (_events.type) {
         case sf::Event::Closed:
-            return EXIT_KEY;
+            return MENU_KEY;
             break;
         case sf::Event::KeyPressed:
             return this->readKeyInput(_events.key.code);
@@ -328,7 +328,7 @@ posf_t Sfml::getCenterPosition(MapContainer map)
 enum Keys Sfml::viewMenu(LibCollection libs, std::string &playerName)
 {
     if (_menu.empty())
-        _menu = this->buildMenu(libs);
+        _menu = this->buildMenu(libs, playerName);
     Keys input = NIL_KEY;
     sf::Text menuHeader;
     static int select = 2;
@@ -440,7 +440,6 @@ sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
     _window.display();
     playerName = std::string(playerInput);
     return currentName;
-    printf("playername: %s\n", currentName);
 }
 
 /*!
@@ -451,13 +450,13 @@ sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
 **
 ** @return MenuCollection
 */
-MenuCollection Sfml::buildMenu(LibCollection libs)
+MenuCollection Sfml::buildMenu(LibCollection libs, std::string playerName)
 {
     MenuCollection menuCol;
     text_t newEntry;
     float space = 100.f;
 
-    newEntry.text = this->newText(libs.at(libs.size() - 1).name, (space += 50.f), sf::Color::Blue);
+    newEntry.text = this->newText(playerName, (space += 50.f), sf::Color::Blue);
     newEntry.lib = libs.at(libs.size() - 1);
     newEntry.n = 3;
     menuCol.push_back(newEntry);

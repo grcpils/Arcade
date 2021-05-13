@@ -40,23 +40,29 @@ namespace Arcade {
     {
         Keys input = NIL_KEY;
 
+        Log("load libraries from 'lib/'", 0);
         this->loadLibsFromFolder();
-        while (input != EXIT_KEY) {
+        Log("Start menu loop", 0);
+        while (input != MENU_KEY) {
             input = _graphicLib->viewMenu(_libraries, _playerName);
             std::this_thread::sleep_for(std::chrono::milliseconds(75));
             switch (input) {
                 case PCM_KEY:
+                    Log("Start Pacman", 0);
                     if (startGame("lib/arcade_pacman.so", "mapping/map.pcm") != 0)
                         return (-1);
                     break;
                 case NBL_KEY:
+                    Log("Start Pacman", 0);
                     if (startGame("lib/arcade_nibbler.so", "mapping/map.nbl") != 0)
                         return (-1);
                     break;
                 case NC_KEY:
+                    Log("Change graphic for ncurses", 0);
                     changeGraphics("lib/arcade_ncurses.so");
                     break;
                 case SF_KEY:
+                    Log("Change graphic for sfml", 0);
                     changeGraphics("lib/arcade_sfml.so");
                     break;
                 default:
@@ -84,6 +90,13 @@ namespace Arcade {
             if (input == EXIT_KEY) {
                 return (-1);
             }
+
+            if (input == NEXTLIB_KEY) {
+                changeGraphics("lib/arcade_ncurses.so");
+            } else if (input == PREVLIB_KEY) {
+                changeGraphics("lib/arcade_sfml.so");
+            }
+
         }
         return (0);
     }
