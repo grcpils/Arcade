@@ -5,8 +5,8 @@
 ** Created 26/03/2021 11:28:16
 */
 
-#ifndef IGRAPHICS_HPP
-#define IGRAPHICS_HPP
+#ifndef IGAMES_HPP
+#define IGAMES_HPP
 
 #include <ostream>
 #include <string>
@@ -19,6 +19,7 @@
 #include "Position.hpp"
 #include "Map.hpp"
 #include "Metadata.hpp"
+#include "Logger.hpp"
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 

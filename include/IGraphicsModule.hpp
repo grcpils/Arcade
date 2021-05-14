@@ -5,8 +5,8 @@
 ** Created 26/03/2021 11:28:10
 */
 
-#ifndef IGAMES_HPP
-#define IGAMES_HPP
+#ifndef IGRAPHICS_HPP
+#define IGRAPHICS_HPP
 
 #include <ostream>
 #include <thread>

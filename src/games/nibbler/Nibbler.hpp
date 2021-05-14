@@ -10,7 +10,7 @@
 class Nibbler : public IGamesModule
 {
     public:
-        Nibbler(char *filename = NULL);
+        Nibbler(void);
         ~Nibbler(void);
 
         virtual std::string getName(void) const;
@@ -30,6 +30,7 @@ class Nibbler : public IGamesModule
         MapContainer _map;
         MetaContainer _mapMetaData;
         pos_t* _s_player;
+        Keys _lastInput;
         Status _status;
         int _score;
 };
