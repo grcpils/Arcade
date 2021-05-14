@@ -33,4 +33,10 @@ class Nibbler : public IGamesModule
         Keys _lastInput;
         Status _status;
         int _score;
+
+        bool checkMapFileValidity(char *filename, FILE *file);
+        pos_t *getPlayerPos(void);
+        pos_t *getMapSize(FILE *file);
+        MapMetadata getMetaOf(char c);
+        void buildMetaData(void);
 };

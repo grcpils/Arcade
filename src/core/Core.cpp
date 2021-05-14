@@ -53,7 +53,7 @@ namespace Arcade {
                         return (-1);
                     break;
                 case NBL_KEY:
-                    Log("Start Pacman", 0);
+                    Log("Start Nibbler", 0);
                     if (startGame("lib/arcade_nibbler.so", "mapping/map.nbl") != 0)
                         return (-1);
                     break;

@@ -431,7 +431,7 @@ sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
     sf::RectangleShape rec;
 
     tips.setFont(_defaultFont);
-    tips.setString("enter to exit input mode");
+    tips.setString("spacebar to exit input mode");
     tips.setOrigin(tips.getLocalBounds().width/2, tips.getLocalBounds().height/2);
     tips.setPosition(sf::Vector2f((_window.getSize().x - 390.f), 180.f));
     tips.setCharacterSize(12);
@@ -447,7 +447,7 @@ sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
     _window.display();
     currentName.setFillColor(sf::Color::Blue);
 
-    while (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+    while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         if (_window.pollEvent(_events) && _events.type == sf::Event::TextEntered)
         {
             if (isalnum(_events.text.unicode) != 0)
