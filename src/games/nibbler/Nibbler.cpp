@@ -27,7 +27,8 @@ enum Status Nibbler::getStatus(void) const
 
 void Nibbler::init(void)
 {
-    _s_player = this->getPlayerPos();
+    _s_player.push_back(this->getPlayerPos());
+    this->createBonus();
 }
 
 bool Nibbler::keyInput(Keys key)
@@ -36,8 +37,8 @@ bool Nibbler::keyInput(Keys key)
     pos_t tmp;
     char playerType = '<';
 
-    tmp.x = _s_player->x;
-    tmp.y = _s_player->y;
+    tmp.x = _s_player.at(0)->x;
+    tmp.y = _s_player.at(0)->y;
 
     if (_score == 3170)
         _status = WIN;
@@ -68,29 +69,65 @@ bool Nibbler::keyInput(Keys key)
     }
 
     if (_mapMetaData.at(tmp.x).at(tmp.y) == WALL ||
-        _mapMetaData.at(tmp.x).at(tmp.y) == IWALL) {
+        _mapMetaData.at(tmp.x).at(tmp.y) == IWALL ||
+        _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
         _status = LOOSE;
     }
 
     if (_mapMetaData.at(tmp.x).at(tmp.y) == PATH ||
-        _mapMetaData.at(tmp.x).at(tmp.y) == BONUS ||
-        _mapMetaData.at(tmp.x).at(tmp.y) == PLAYER) {
-            if (_map.at(tmp.x).at(tmp.y) == '.')
-                _score += 10;
-            if (_map.at(tmp.x).at(tmp.y) == '*') {
+        _mapMetaData.at(tmp.x).at(tmp.y) == BONUS) {
+            if (_mapMetaData.at(tmp.x).at(tmp.y) == BONUS) {
                 _score += 100;
+                this->createBonus();
+                this->playerAddNode(tmp);
             }
 
-            _mapMetaData.at(_s_player->x).at(_s_player->y) = PATH;
-            _s_player->x = tmp.x;
-            _s_player->y = tmp.y;
-            _map.at(_s_player->x).at(_s_player->y) = playerType;
-            _mapMetaData.at(_s_player->x).at(_s_player->y) = PLAYER;
+            this->movePlayer(tmp);
             if (key != NIL_KEY)
                 _lastInput = key;
             return true;
     }
     return false;
+}
+
+void Nibbler::playerAddNode(pos_t next)
+{
+    pos_t *newPos = (pos_t*)malloc(sizeof(pos_t));
+    newPos->x = next.x;
+    newPos->y = next.y;
+    _s_player.push_front(newPos);
+}
+
+void Nibbler::movePlayer(pos_t next)
+{
+    int t = 0;
+    pos_t *newPos = (pos_t*)malloc(sizeof(pos_t));
+    newPos->x = next.x;
+    newPos->y = next.y;
+
+    for (int x = 0 ; x < _s_player.size() ; x++)
+        _mapMetaData.at(_s_player.at(x)->x).at(_s_player.at(x)->y) = PATH;
+    _s_player.push_front(newPos);
+    _s_player.pop_back();
+    for (int x = 0 ; x < _s_player.size() ; x++)
+        _mapMetaData.at(_s_player.at(x)->x).at(_s_player.at(x)->y) = PLAYER;
+}
+
+void Nibbler::createBonus(void)
+{
+    int randx = rand() % 9 + 4;
+    int randy = rand() % 47 + 4;
+
+    if (randx < _mapMetaData.size() && randy < _mapMetaData.at(randx).size() &&
+        _mapMetaData.at(randx).at(randy) != PLAYER &&
+        _mapMetaData.at(randx).at(randy) != WALL &&
+        _mapMetaData.at(randx).at(randy) != IWALL) {
+        _s_bonus.x = randx;
+        _s_bonus.y = randy;
+        _mapMetaData.at(_s_bonus.x).at(_s_bonus.y) = BONUS;
+    } else {
+        this->createBonus();
+    }
 }
 
 int Nibbler::getScore(void) const

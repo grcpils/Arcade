@@ -29,14 +29,18 @@ class Nibbler : public IGamesModule
         pos_t* _mapSize;
         MapContainer _map;
         MetaContainer _mapMetaData;
-        pos_t* _s_player;
+        std::deque<pos_t*> _s_player;
+        pos_t _s_bonus;
         Keys _lastInput;
         Status _status;
         int _score;
 
         bool checkMapFileValidity(char *filename, FILE *file);
         pos_t *getPlayerPos(void);
+        void createBonus(void);
+        void playerAddNode(pos_t next);
         pos_t *getMapSize(FILE *file);
         MapMetadata getMetaOf(char c);
         void buildMetaData(void);
+        void movePlayer(pos_t next);
 };

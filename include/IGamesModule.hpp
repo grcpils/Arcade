@@ -12,6 +12,7 @@
 #include <string>
 #include <iterator>
 #include <vector>
+#include <deque>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
