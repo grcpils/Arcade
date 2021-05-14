@@ -324,10 +324,12 @@ posf_t Sfml::getCenterPosition(MapContainer map)
     return pos;
 }
 
-void Sfml::endGame(std::string text)
+void Sfml::endGame(std::string text, int score)
 {
+    sf::Text yscore;
     sf::Text title;
     sf::Text tips;
+    char yourScore[255];
 
     title.setFont(_defaultFont);
     title.setString(text);
@@ -335,6 +337,14 @@ void Sfml::endGame(std::string text)
     title.setPosition(sf::Vector2f((_window.getSize().x/2.f) - title.getLocalBounds().width/2.f, 300.f));
     title.setCharacterSize(50);
     title.setFillColor(sf::Color::Yellow);
+
+    sprintf(yourScore, "Score: %d", score);
+    yscore.setFont(_defaultFont);
+    yscore.setString(yourScore);
+    yscore.setOrigin(title.getLocalBounds().width/2.f, title.getLocalBounds().height/2.f);
+    yscore.setPosition(sf::Vector2f((_window.getSize().x/2.f) - 50.f, 260.f));
+    yscore.setCharacterSize(20);
+    yscore.setFillColor(sf::Color::Green);
 
     tips.setFont(_defaultFont);
     tips.setString("Press escape to return at menu");
@@ -345,6 +355,7 @@ void Sfml::endGame(std::string text)
 
     _window.clear();
     _window.draw(title);
+    _window.draw(yscore);
     _window.draw(tips);
     _window.display();
 }

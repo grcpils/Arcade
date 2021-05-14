@@ -370,18 +370,21 @@ int Ncurses::printMenu(LibCollection libs, int select)
     return (0);
 }
 
-void Ncurses::endGame(std::string text)
+void Ncurses::endGame(std::string text, int score)
 {
     int h = (LINES / 2) - 1;
     int w = (COLS / 2) - (text.size() / 2);
     std::string tips = "Press escape to return at menu";
+    char yourScore[255];
 
+    sprintf(yourScore, "Score: %d", score);
     wclear(_w_main);
     wattron(_w_main, A_BOLD);
     mvwprintw(_w_main, h, w, text.c_str());
     wattroff(_w_main, A_BOLD);
     w = (COLS / 2) - (tips.size() / 2);
     mvwprintw(_w_main, h+1, w, tips.c_str());
+    mvwprintw(_w_main, h-1, w, yourScore);
     wrefresh(_w_main);
 }
 

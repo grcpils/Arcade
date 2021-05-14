@@ -19,7 +19,7 @@ class Sdl2 : public IGraphicsModule
         bool updateScore(int score);
         void refreshMap(MapContainer map, MetaContainer meta);
         enum Keys keyPressed(void);
-        void endGame(std::string text);
+        void endGame(std::string text, int score);
 
         enum Keys viewMenu(LibCollection libs, std::string &playerName);
 

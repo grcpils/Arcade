@@ -109,8 +109,10 @@ void Nibbler::movePlayer(pos_t next)
         _mapMetaData.at(_s_player.at(x)->x).at(_s_player.at(x)->y) = PATH;
     _s_player.push_front(newPos);
     _s_player.pop_back();
-    for (int x = 0 ; x < _s_player.size() ; x++)
+    for (int x = 0 ; x < _s_player.size() ; x++) {
         _mapMetaData.at(_s_player.at(x)->x).at(_s_player.at(x)->y) = PLAYER;
+         _map.at(_s_player.at(x)->x).at(_s_player.at(x)->y) = 'O';
+    }
 }
 
 void Nibbler::createBonus(void)

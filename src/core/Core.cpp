@@ -108,14 +108,14 @@ namespace Arcade {
         Keys input;
 
         if (_gameLib->getStatus() == WIN) {
-            _graphicLib->endGame("You Win !");
+            _graphicLib->endGame("You Win !", _gameLib->getScore());
             while (input != MENU_KEY) {
                 input = _graphicLib->keyPressed();
             };
             return (-1);
         }
         if (_gameLib->getStatus() == LOOSE) {
-            _graphicLib->endGame("Game Over :(");
+            _graphicLib->endGame("Game Over :(", _gameLib->getScore());
             while (input != MENU_KEY) {
                 input = _graphicLib->keyPressed();
             };

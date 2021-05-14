@@ -31,7 +31,7 @@ enum Keys Sdl2::keyPressed(void)
 enum Keys Sdl2::viewMenu(LibCollection libs, std::string &playerName)
 {}
 
-void Sdl2::endGame(std::string text)
+void Sdl2::endGame(std::string text, int score)
 {}
 
 
