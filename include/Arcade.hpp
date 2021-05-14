@@ -8,7 +8,7 @@
 #ifndef ARCADE_HPP
 #define ARCADE_HPP
 
-#define DEBUG true
+#define DEBUG false
 
 #include <iostream>
 #include <dirent.h>

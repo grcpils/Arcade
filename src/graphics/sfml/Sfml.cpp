@@ -318,7 +318,29 @@ posf_t Sfml::getCenterPosition(MapContainer map)
 }
 
 void Sfml::endGame(std::string text)
-{}
+{
+    sf::Text title;
+    sf::Text tips;
+
+    title.setFont(_defaultFont);
+    title.setString(text);
+    title.setOrigin(title.getLocalBounds().width/2.f, title.getLocalBounds().height/2.f);
+    title.setPosition(sf::Vector2f((_window.getSize().x/2.f) - title.getLocalBounds().width/2.f, 300.f));
+    title.setCharacterSize(50);
+    title.setFillColor(sf::Color::Yellow);
+
+    tips.setFont(_defaultFont);
+    tips.setString("Press escape to return at menu");
+    tips.setOrigin(tips.getLocalBounds().width/2.f, tips.getLocalBounds().height/2.f);
+    tips.setPosition(sf::Vector2f((_window.getSize().x/2.f) + 200.f, 365.f));
+    tips.setCharacterSize(14);
+    tips.setFillColor(sf::Color::White);
+
+    _window.clear();
+    _window.draw(title);
+    _window.draw(tips);
+    _window.display();
+}
 
 /*!
 ** @brief Print and refresh menu before start any game
@@ -417,8 +439,8 @@ sf::Text Sfml::getNewPlayerName(sf::Text currentName, std::string &playerName)
     _window.draw(rec);
     _window.display();
     currentName.setFillColor(sf::Color::Blue);
-    while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    while (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
         if (_window.pollEvent(_events) && _events.type == sf::Event::TextEntered)
         {
             if (isalnum(_events.text.unicode) != 0)

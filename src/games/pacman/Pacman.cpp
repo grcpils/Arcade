@@ -196,9 +196,6 @@ pos_t Pacman::monsterPersonnalityMove(int monsterNumber)
         break;
     }
 
-    fprintf(stderr, "Monster: %d\nNext: %d %d\nOld: %d %d\n\n", monsterNumber,
-            next.x, next.y, _old_s_monsters.at(monsterNumber).x, _old_s_monsters.at(monsterNumber).y);
-
     if (this->positionWalkable(next))
         return next;
     else
