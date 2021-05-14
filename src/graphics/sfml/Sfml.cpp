@@ -174,6 +174,13 @@ ShapedMapContainer Sfml::contructShapedMap(MapContainer map, MetaContainer meta)
                     pixel.shape.setFillColor(sf::Color(0, 255, 255));
                     _ShapeMap.push_back(pixel);
                     break;
+                case KMONSTER:
+                    pixel.meta = MONSTER;
+                    pixel.shape.setPosition(sf::Vector2f(pos.y - 5.f, pos.x + 5.f));
+                    pixel.shape.setSize(sf::Vector2f(yf + 10.f, xf - 10.f));
+                    pixel.shape.setFillColor(sf::Color(255, 0, 0));
+                    _ShapeMap.push_back(pixel);
+                    break;
                 case PATH:
                     pixel.meta = PATH;
                     pixel.shape.setPosition(sf::Vector2f(pos.y, pos.x));

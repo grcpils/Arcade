@@ -20,5 +20,4 @@ void logger(int line, const char *filename, const char *msg, ...)
     if (DEBUG == true)
         std::cout << buffer << std::endl;
     va_end(args);
-
 }

@@ -6,6 +6,7 @@
 */
 
 #include "Nibbler.hpp"
+#include "Logger.hpp"
 
 Nibbler::Nibbler(void)
     : _name("nibbler"), _lastInput(RIGHT_KEY), _status(RUN), _score(0)
@@ -30,6 +31,11 @@ void Nibbler::init(void)
 bool Nibbler::keyInput(Keys key)
 {}
 
+int Nibbler::getScore(void) const
+{
+    return _score;
+}
+
 MapContainer Nibbler::getMap(char *filename)
 {}
 
@@ -38,3 +44,18 @@ MapContainer Nibbler::getUpdatedMap(void)
 
 MetaContainer Nibbler::getMetaMap(void)
 {}
+
+extern "C" {
+
+    IGamesModule *getInstance(void)
+    {
+        IGamesModule *instance = new Nibbler();
+        return instance;
+    }
+
+    void deleteInstance(IGamesModule *instance)
+    {
+        delete instance;
+    }
+
+}

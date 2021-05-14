@@ -19,7 +19,6 @@
 #include "Position.hpp"
 #include "Map.hpp"
 #include "Metadata.hpp"
-#include "Logger.hpp"
 
 typedef enum Status { RUN, WIN, LOOSE } Status;
 
