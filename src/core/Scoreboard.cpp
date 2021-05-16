@@ -51,8 +51,6 @@ namespace Arcade
                 playername = token;
                 line.erase(0, next + limit.length());
                 score = stoi(line);
-
-                // TODO: push in list
                 _scores.push_back(std::pair<std::string, int>(playername, score));
             }
             scoreFile.close();
@@ -103,7 +101,7 @@ namespace Arcade
             _scores.push_back(std::pair<std::string, int>(playerName, playerScore));
             return true;
         }
-        if (lowest > 0)
+        if (lowest > 0 && _scores.size() == 5)
             _scores.at(lowest) = std::pair<std::string, int>(playerName, playerScore);
         return true;
     }

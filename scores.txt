@@ -1,5 +1,5 @@
-Tutu:5432
-Pilou:1700
-Titi:400
-Player:200
-Pilou2:200
+Player:1410
+Pilou:300
+Millefrite:300
+Player:300
+Millefrite:100
