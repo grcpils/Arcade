@@ -26,6 +26,7 @@ namespace Arcade
     bool Scoreboard::setFile(char *filename)
     {
         _scoreFilename = filename;
+        this->extractFromFile();
     }
 
     bool Scoreboard::extractFromFile(void)
@@ -68,6 +69,11 @@ namespace Arcade
         }
     }
 
+    bool comparator(std::pair<std::string, int> &a, std::pair<std::string, int> &b)
+    {
+        return a.second > b.second;
+    }
+
     bool Scoreboard::sort(void)
     {
         std::sort(_scores.begin(), _scores.end(), comparator);
@@ -78,7 +84,7 @@ namespace Arcade
         for (int x = 0 ; x < _scores.size() ; x++) {
             if (_scores.at(x).second < current)
                 return x;
-            if (x >= 4)
+            if (x >= 5)
                 return 4;
         }
         return -1;
@@ -92,23 +98,21 @@ namespace Arcade
             Log("Scoreboard: File not set: Use setFile() before", 0);
         }
         this->sort();
+
+        if (_scores.size() < 5) {
+            _scores.push_back(std::pair<std::string, int>(playerName, playerScore));
+            return true;
+        }
         if (lowest > 0)
             _scores.at(lowest) = std::pair<std::string, int>(playerName, playerScore);
-        else
-            _scores.push_back(std::pair<std::string, int>(playerName, playerScore));
         return true;
     }
 
     std::vector<std::pair<std::string, int>> Scoreboard::get(void)
     {
-        this->extractFromFile();
         this->sort();
+        Log("Size of scores: %d", _scores.size());
         return _scores;
-    }
-
-    bool comparator(std::pair<std::string, int> &a, std::pair<std::string, int> &b)
-    {
-        return a.second > b.second;
     }
 
 } /* namespace Arcade */

@@ -86,7 +86,7 @@ void Ncurses::initScreen(void)
 {
     _w_main = subwin(stdscr, (LINES - 1), (COLS - 1), 0, 0);
     _w_score = subwin(stdscr, 3, 20, 1, 2);
-    _w_menu = subwin(stdscr, 15, 19, 1, 1);
+    _w_menu = subwin(stdscr, 15, 19, (LINES / 2) - (15 / 2), (COLS / 2) - ((19 / 2) - 26));
     box(_w_main, ACS_VLINE, ACS_HLINE);
     nodelay(_w_main, true);
     timeout(1);
@@ -256,14 +256,25 @@ pos_t *Ncurses::getSizeOfMap(MapContainer map) const
     return size;
 }
 
-enum Keys Ncurses::viewMenu(LibCollection libs, std::string &playerName)
+enum Keys Ncurses::viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores)
 {
     static int select = 2;
     Keys input = this->keyPressed();
 
     wclear(_w_main);
     box(_w_menu, ACS_VLINE, ACS_HLINE);
-    mvwprintw(_w_menu, 2, 5, "ARCADE");
+    mvwprintw(_w_menu, 2, 6, "ARCADE");
+
+    int scbH = 3;
+    _w_scoreboard = subwin(stdscr, 11   , 26, (LINES / 2) - (15 / 2) + 2, (COLS / 2) - (19 / 2));
+    box(_w_scoreboard, ACS_VLINE, ACS_HLINE);
+    mvwprintw(_w_scoreboard, 2, 8, "SCOREBOARD");
+
+    for (int x = 0 ; x < scores.size() ; x++) {
+        mvwprintw(_w_scoreboard, scbH+1, 3, scores.at(x).first.c_str());
+        mvwprintw(_w_scoreboard, scbH+1, 20, std::to_string(scores.at(x).second).c_str());
+        scbH++;
+    }
 
     this->buildMenu(libs, playerName);
     this->printMenu(libs, select);

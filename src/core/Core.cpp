@@ -15,7 +15,6 @@ namespace Arcade {
         _playerName("Player"), _score(0)
     {
         _scoreboard.setFile((char*)"./scores.txt");
-        _scoreboard.get();
         Log("New Core", 0);
         if (ac < 2) {
             this->usage();
@@ -44,20 +43,23 @@ namespace Arcade {
 
         Log("load libraries from 'lib/'", 0);
         this->loadLibsFromFolder();
-        Log("Start menu loop", 0);
+        std::vector<std::pair<std::string, int>> scores = _scoreboard.get();
+
         while (input != MENU_KEY) {
-            input = _graphicLib->viewMenu(_libraries, _playerName);
+            input = _graphicLib->viewMenu(_libraries, _playerName, scores);
             std::this_thread::sleep_for(std::chrono::milliseconds(75));
             switch (input) {
                 case PCM_KEY:
                     Log("Start Pacman", 0);
                     if (startGame("lib/arcade_pacman.so", "mapping/map.pcm") != 0)
                         return (-1);
+                    scores = _scoreboard.get();
                     break;
                 case NBL_KEY:
                     Log("Start Nibbler", 0);
                     if (startGame("lib/arcade_nibbler.so", "mapping/map.nbl") != 0)
                         return (-1);
+                    scores = _scoreboard.get();
                     break;
                 case NC_KEY:
                     Log("Change graphic for ncurses", 0);

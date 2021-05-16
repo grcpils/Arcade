@@ -368,12 +368,16 @@ void Sfml::endGame(std::string text, int score)
 **
 ** @return enum Keys
 */
-enum Keys Sfml::viewMenu(LibCollection libs, std::string &playerName)
+enum Keys Sfml::viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores)
 {
     if (_menu.empty())
         _menu = this->buildMenu(libs, playerName);
     Keys input = NIL_KEY;
     sf::Text menuHeader;
+    sf::Text scoreheader;
+    sf::Text scoreLine;
+    char scoreBuffer[255];
+    float scorelinepos = 145.f;
     static int select = 2;
     _window.clear();
 
@@ -384,7 +388,29 @@ enum Keys Sfml::viewMenu(LibCollection libs, std::string &playerName)
     menuHeader.setCharacterSize(50);
     menuHeader.setFillColor(sf::Color::White);
 
+    scoreheader.setFont(_defaultFont);
+    scoreheader.setString("Scoreboard");
+    scoreheader.setOrigin(menuHeader.getLocalBounds().width/2.f, menuHeader.getLocalBounds().height/2.f);
+    scoreheader.setPosition(sf::Vector2f(210.f, 103.f));
+    scoreheader.setCharacterSize(22);
+    scoreheader.setFillColor(sf::Color::Green);
+
+    scoreLine.setFont(_defaultFont);
+    scoreLine.setOrigin(menuHeader.getLocalBounds().width/2.f, menuHeader.getLocalBounds().height/2.f);
+    scoreLine.setPosition(sf::Vector2f(210.f, 105.f));
+    scoreLine.setCharacterSize(18);
+    scoreLine.setFillColor(sf::Color::White);
+
+    for (int x = 0 ; x < scores.size() ; x++) {
+        sprintf(scoreBuffer, "%s..........%d", scores.at(x).first.c_str(), scores.at(x).second);
+        scoreLine.setString(scoreBuffer);
+        scoreLine.setPosition(sf::Vector2f(210.f, scorelinepos));
+        _window.draw(scoreLine);
+        scorelinepos += 35.f;
+    }
+
     _window.draw(menuHeader);
+    _window.draw(scoreheader);
     for (int x = 0 ; x < _menu.size() ; x++) {
         _window.draw(_menu.at(x).text);
     }

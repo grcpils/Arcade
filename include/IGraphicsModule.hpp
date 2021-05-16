@@ -34,7 +34,7 @@ class IGraphicsModule
 
         virtual void endGame(std::string text, int score) = 0;
 
-        virtual enum Keys viewMenu(LibCollection libs, std::string &playerName) = 0;
+        virtual enum Keys viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores) = 0;
 
         virtual void setCurrentGame(std::string currentGame) = 0;
 

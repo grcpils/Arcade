@@ -37,7 +37,7 @@ namespace Sfml
             void refreshMap(MapContainer map, MetaContainer meta);
             enum Keys keyPressed(void);
 
-            enum Keys viewMenu(LibCollection libs, std::string &playerName);
+            enum Keys viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores);
             void endGame(std::string text, int score);
 
             void setCurrentGame(std::string currentGame);

@@ -21,7 +21,7 @@ class Sdl2 : public IGraphicsModule
         enum Keys keyPressed(void);
         void endGame(std::string text, int score);
 
-        enum Keys viewMenu(LibCollection libs, std::string &playerName);
+        enum Keys viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores);
 
         void setCurrentGame(std::string currentGame);
 
