@@ -14,6 +14,8 @@ namespace Arcade {
     :   _graphicLib(NULL), _gameLib(NULL), _graphicPtr(NULL), _gamePtr(NULL),
         _playerName("Player"), _score(0)
     {
+        _scoreboard.setFile((char*)"./scores.txt");
+        _scoreboard.get();
         Log("New Core", 0);
         if (ac < 2) {
             this->usage();
@@ -86,8 +88,10 @@ namespace Arcade {
             _graphicLib->refreshMap(_gameLib->getUpdatedMap(), _gameLib->getMetaMap());
             _score = _gameLib->getScore();
             _graphicLib->updateScore(_score);
-            if (this->checkGameStatus() != 0)
+            if (this->checkGameStatus() != 0) {
+                _scoreboard.add(_playerName, _gameLib->getScore());
                 return (0);
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(75));
             if (input == EXIT_KEY) {
                 return (-1);

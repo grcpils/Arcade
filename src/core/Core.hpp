@@ -24,6 +24,7 @@ namespace Arcade {
             int checkGameStatus(void);
 
         private:
+            Scoreboard _scoreboard;
             DLLoader<IGraphicsModule> *_graphicPtr;
             DLLoader<IGamesModule> *_gamePtr;
             IGraphicsModule *_graphicLib;

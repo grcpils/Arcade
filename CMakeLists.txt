@@ -31,6 +31,7 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
 add_executable(${PROJECT_NAME}
     ${LOCAL_SRC_DIR}/main.cpp
     ${LOCAL_SRC_DIR}/utils.cpp
+    ${LOCAL_CORE_DIR}/Scoreboard.cpp
     ${LOCAL_CORE_DIR}/Core.cpp
 )
 

@@ -8,13 +8,14 @@
 #ifndef ARCADE_HPP
 #define ARCADE_HPP
 
-#define DEBUG false
+#define DEBUG true
 
 #include <iostream>
 #include <dirent.h>
 #include <string>
 #include "IGamesModule.hpp"
 #include "IGraphicsModule.hpp"
+#include "Scoreboard.hpp"
 #include "DLLoader.hpp"
 #include "Logger.hpp"
 #include "Libraries.hpp"
