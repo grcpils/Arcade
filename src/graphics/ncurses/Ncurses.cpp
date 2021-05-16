@@ -108,6 +108,12 @@ void Ncurses::loadMap(MapContainer map, MetaContainer meta)
     int w = (COLS / 2) - (size->y / 2);
     wclear(_w_menu);
 
+    mvwprintw(_w_main, 5, 3, "n for the next graphic library");
+    mvwprintw(_w_main, 6, 3, "p for the previous graphic library");
+
+    mvwprintw(_w_main, 8, 3, "c for the next game");
+    mvwprintw(_w_main, 9, 3, "v for the previous game");
+
     for (int x = 0 ; x < map.size() ; x++) {
         for (int y = 0 ; y < map.at(x).size() ; y++) {
             wmove(_w_main, h, w);

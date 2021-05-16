@@ -80,6 +80,8 @@ namespace Arcade {
     {
         MapContainer map = _gameLib->getMap((char*) filemap);
         Keys input = NIL_KEY;
+        static int currentLibIt = 0;
+
         if (map.empty() == 1)
             return (-1);
         _gameLib->init();
@@ -104,7 +106,6 @@ namespace Arcade {
             } else if (input == PREVLIB_KEY) {
                 changeGraphics("lib/arcade_sfml.so");
             }
-
         }
         return (0);
     }

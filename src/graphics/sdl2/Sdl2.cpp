@@ -26,10 +26,14 @@ void Sdl2::refreshMap(MapContainer map, MetaContainer meta)
 {}
 
 enum Keys Sdl2::keyPressed(void)
-{}
+{
+    return EXIT_KEY;
+}
 
 enum Keys Sdl2::viewMenu(LibCollection libs, std::string &playerName, std::vector<std::pair<std::string, int>> scores)
-{}
+{
+    return EXIT_KEY;
+}
 
 void Sdl2::endGame(std::string text, int score)
 {}

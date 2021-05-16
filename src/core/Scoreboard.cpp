@@ -27,6 +27,7 @@ namespace Arcade
     {
         _scoreFilename = filename;
         this->extractFromFile();
+        return true;
     }
 
     bool Scoreboard::extractFromFile(void)
@@ -55,6 +56,7 @@ namespace Arcade
             }
             scoreFile.close();
         }
+        return true;
 
     }
 
@@ -65,6 +67,7 @@ namespace Arcade
         for (int x = 0 ; x < _scores.size() ; x++) {
             scoreFile << _scores.at(x).first << ":" << _scores.at(x).second << std::endl;
         }
+        return true;
     }
 
     bool comparator(std::pair<std::string, int> &a, std::pair<std::string, int> &b)
@@ -75,6 +78,7 @@ namespace Arcade
     bool Scoreboard::sort(void)
     {
         std::sort(_scores.begin(), _scores.end(), comparator);
+        return true;
     }
 
     int Scoreboard::findLowest(int current)

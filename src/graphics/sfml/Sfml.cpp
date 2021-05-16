@@ -208,7 +208,27 @@ ShapedMapContainer Sfml::contructShapedMap(MapContainer map, MetaContainer meta)
 
 void Sfml::printShapedMap(void)
 {
+    char *tips[5] = { "n for the next graphic library",
+                      "p for the previous graphic library",
+                      "c for the next game",
+                      "v for the previous game", NULL };
+    sf::Text tipsText;
+    float h = 50.f;
+
      _window.clear(sf::Color::Black);
+
+    tipsText.setFont(_defaultFont);
+    tipsText.setOrigin(tipsText.getLocalBounds().width/2.f, tipsText.getLocalBounds().height/2.f);
+    tipsText.setCharacterSize(12);
+    tipsText.setFillColor(sf::Color::White);
+    for (int x = 0 ; tips[x] != NULL ; x++) {
+        tipsText.setPosition(sf::Vector2f(10.f, h));
+        tipsText.setString(tips[x]);
+        _window.draw(tipsText);
+        h += 15.f;
+        if (x == 1)
+            h += 15.f;
+    }
     for (int x = 0 ; x < _ShapeMap.size() ; x++) {
         _window.draw(_ShapeMap.at(x).shape);
     }
